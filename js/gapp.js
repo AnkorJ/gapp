@@ -2,27 +2,31 @@
 
     var GAPP = {};
 
-    GAPP.Resource = Backbone.Model.extend({
+    Resource = Backbone.Model.extend({
 
-        initialize: function(){
-
+        url: function(){
+            var id = this.get('id');
+            return 'http://www.aliss.org/api/resources/' + id + '/';
+        },
+        parse: function(result){
+            return result.data[0];
         }
 
     });
 
-    GAPP.ResourceCollection = Backbone.Collection.extend({
+    ResourceCollection = Backbone.Collection.extend({
 
-        model: GAPP.Resource
-
-    });
-
-    GAPP.SavedSearch = Backbone.Model.extend({
+        model: Resource
 
     });
 
-    GAPP.SavedSearchCollection = Backbone.Collection.extend({
+    SavedSearch = Backbone.Model.extend({
 
-        model: GAPP.SavedSearch,
+    });
+
+    SavedSearchCollection = Backbone.Collection.extend({
+
+        model: SavedSearch,
 
         fetch: function(){
 
@@ -30,6 +34,13 @@
 
     });
 
-    window.GAPP = GAPP;
+
+    window.GAPP = {
+        Resource: Resource,
+        ResourceCollection: ResourceCollection,
+        SavedSearch: SavedSearch,
+        SavedSearchCollection: SavedSearchCollection
+    };
+
 
 }).call(this);
