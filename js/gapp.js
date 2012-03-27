@@ -8,15 +8,25 @@
             var id = this.get('id');
             return 'http://www.aliss.org/api/resources/' + id + '/';
         },
+
         parse: function(result){
-            return result.data[0];
+            if (result.data){
+                return result.data[0];
+            } else {
+                return result;
+            }
         }
 
     });
 
-    ResourceCollection = Backbone.Collection.extend({
+    ResourceSearchCollection = Backbone.Collection.extend({
 
-        model: Resource
+        model: Resource,
+        url: 'http://www.aliss.org/api/resources/search/',
+
+        parse: function(result) {
+            return result.data[0].results;
+        }
 
     });
 
@@ -26,18 +36,14 @@
 
     SavedSearchCollection = Backbone.Collection.extend({
 
-        model: SavedSearch,
-
-        fetch: function(){
-
-        }
+        model: SavedSearch
 
     });
 
 
     window.GAPP = {
         Resource: Resource,
-        ResourceCollection: ResourceCollection,
+        ResourceSearchCollection: ResourceSearchCollection,
         SavedSearch: SavedSearch,
         SavedSearchCollection: SavedSearchCollection
     };

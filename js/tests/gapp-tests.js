@@ -1,6 +1,6 @@
 $(function(){
 
-    test("model structure", function() {
+    test("model creation and updating", function() {
 
         expect(4);
 
@@ -21,20 +21,32 @@ $(function(){
 
         // Check that change is called, and
         r.on("change", function(){
-            console.log(1);
             equal(r.get('title'), "You First Advocacy.");
             start();
         });
 
-
         equal(r.get('title'), "fake title");
-
         equal(r.url(), 'http://www.aliss.org/api/resources/4da0439689cb164d15000003/');
 
         // Trigger a refresh of the model
         r.fetch();
 
         notEqual(r.get('title'), "You First Advocacy.");
+
+        stop();
+
+    });
+
+    test("fetching a collection", function(){
+
+
+        var rs = new GAPP.ResourceSearchCollection();
+        rs.fetch({
+            'success': function(){
+                strictEqual(rs.length, 100);
+                start();
+            }
+        });
 
         stop();
 

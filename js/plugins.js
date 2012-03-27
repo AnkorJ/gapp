@@ -29,6 +29,7 @@ $(function(){
         if (!options.url) {
         params.url = getValue(model, 'url') || urlError();
         }
+        console.log(params.url);
 
         // Ensure that we have the appropriate request data.
         if (!options.data && model && (method == 'create' || method == 'update')) {
