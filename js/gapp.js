@@ -4,6 +4,9 @@
 
     Resource = Backbone.Model.extend({
 
+        cache: true,
+        cache_time: 60,
+
         url: function(){
             var id = this.get('id');
             return 'http://www.aliss.org/api/resources/' + id + '/';

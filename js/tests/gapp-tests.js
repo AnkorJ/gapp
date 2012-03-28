@@ -1,5 +1,7 @@
 $(function(){
 
+    locache.flush();
+
     test("model creation and updating", function() {
 
         expect(4);
@@ -19,10 +21,16 @@ $(function(){
             "uri": ""
         });
 
-        // Check that change is called, and
+        // Check that change is called. Remove the change event, and assign
+        // a new one that stops this test. Finally calls another fetch to
+        // test it comes from the cache.
         r.on("change", function(){
             equal(r.get('title'), "You First Advocacy.");
-            start();
+            r.off("change");
+            r.on("change", function(){
+                start();
+            });
+            r.fetch();
         });
 
         equal(r.get('title'), "fake title");
@@ -30,7 +38,6 @@ $(function(){
 
         // Trigger a refresh of the model
         r.fetch();
-
         notEqual(r.get('title'), "You First Advocacy.");
 
         stop();
