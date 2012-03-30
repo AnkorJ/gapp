@@ -6,38 +6,31 @@ $(function(){
 
         expect(4);
 
-        // The following model instance is valid and taken from an API feed.
-        // However, for the test, the title has been changed and for berevity
-        // the description has been deleted.
-        r = new GAPP.Resource({
-            "score": 10.005193,
-            "accounts": ["4d9fbd5789cb1673fb000000"],
-            "description": "",
-            "title": "fake title",
-            "locations": ["55.842, -4.4238"],
-            "locationnames": ["PA1 1YN, Paisley East and Ralston, Renfrewshire"],
-            "tags": ["Advice and counselling, Mental Health"],
-            "id": "4da0439689cb164d15000003",
-            "uri": ""
-        });
+        // The following model instance is created with an ID taken from an
+        // API call.
+        r = new GAPP.Resource({"id": "4da0439689cb164d15000003"});
 
         // Check that change is called. Remove the change event, and assign
         // a new one that stops this test. Finally calls another fetch to
         // test it comes from the cache.
         r.on("change", function(){
+
             equal(r.get('title'), "You First Advocacy.");
             r.off("change");
             r.on("change", function(){
                 start();
             });
             r.fetch();
+
         });
 
-        equal(r.get('title'), "fake title");
+        // We don't have the title yet.
+        equal(r.get('title'), undefined);
         equal(r.url(), 'http://www.aliss.org/api/resources/4da0439689cb164d15000003/');
 
         // Trigger a refresh of the model
         r.fetch();
+        // We still wont have the title as its aync.
         notEqual(r.get('title'), "You First Advocacy.");
 
         stop();
@@ -46,12 +39,35 @@ $(function(){
 
     test("fetching a collection", function(){
 
+        expect(1);
 
-        var rs = new GAPP.ResourceSearchCollection();
+
+        var rs = new GAPP.ResourceCollection();
         rs.fetch({
             'success': function(){
-                strictEqual(rs.length, 100);
+                strictEqual(rs.length, 30);
                 start();
+            }
+        });
+
+        stop();
+
+    });
+
+    test("fetching a filtered collection", function(){
+
+        expect(1);
+
+
+        var rs = new GAPP.ResourceCollection();
+        rs.fetch({
+            'success': function(){
+                strictEqual(rs.length, 10);
+                start();
+            },
+            'data': {
+                max: 10,
+                query: "health"
             }
         });
 

@@ -2,10 +2,37 @@
 
     var GAPP = {};
 
-    Resource = Backbone.Model.extend({
+    var BaseModel = Backbone.Model.extend({
 
         cache: true,
         cache_time: 60,
+        queryData: {},
+        fetch: function(options){
+            var data = options.data || (options.data = {});
+            options.data = $.extend({}, this.queryData, data);
+            Backbone.Model.prototype.fetch.call(this, options);
+        }
+    });
+
+    var BaseCollection = Backbone.Collection.extend({
+
+        cache: true,
+        cache_time: 60,
+        queryData: {},
+        fetch: function(options){
+            var data = options.data || (options.data = {});
+            options.data = $.extend({}, this.queryData, data);
+            Backbone.Collection.prototype.fetch.call(this, options);
+        }
+    });
+
+    var Resource = BaseModel.extend({
+
+        queryData: {
+            'max': 30,
+            'start': 0,
+            'bootlocation': 10
+        },
 
         url: function(){
             var id = this.get('id');
@@ -22,10 +49,16 @@
 
     });
 
-    ResourceSearchCollection = Backbone.Collection.extend({
+    var ResourceCollection = BaseCollection.extend({
 
         model: Resource,
         url: 'http://www.aliss.org/api/resources/search/',
+
+        queryData: {
+            'max': 30,
+            'start': 0,
+            'bootlocation': 10
+        },
 
         parse: function(result) {
             return result.data[0].results;
@@ -33,20 +66,20 @@
 
     });
 
-    SavedSearch = Backbone.Model.extend({
+    var SavedSearch = BaseModel.extend({
 
     });
 
-    SavedSearchCollection = Backbone.Collection.extend({
+    var SavedSearchCollection = BaseCollection.extend({
 
         model: SavedSearch
 
     });
 
 
-    window.GAPP = {
+    this.GAPP = {
         Resource: Resource,
-        ResourceSearchCollection: ResourceSearchCollection,
+        ResourceCollection: ResourceCollection,
         SavedSearch: SavedSearch,
         SavedSearchCollection: SavedSearchCollection
     };
