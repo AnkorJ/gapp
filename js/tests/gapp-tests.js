@@ -8,7 +8,7 @@ $(function(){
 
         // The following model instance is created with an ID taken from an
         // API call.
-        r = new GAPP.Resource({"id": "4da0439689cb164d15000003"});
+        r = new GAPP.models.Resource({"id": "4da0439689cb164d15000003"});
 
         // Check that change is called. Remove the change event, and assign
         // a new one that stops this test. Finally calls another fetch to
@@ -42,7 +42,7 @@ $(function(){
         expect(1);
 
 
-        var rs = new GAPP.ResourceCollection();
+        var rs = new GAPP.collections.ResourceCollection();
         rs.fetch({
             'success': function(){
                 strictEqual(rs.length, 30);
@@ -59,7 +59,7 @@ $(function(){
         expect(1);
 
 
-        var rs = new GAPP.ResourceCollection();
+        var rs = new GAPP.collections.ResourceCollection();
         rs.fetch({
             'success': function(){
                 strictEqual(rs.length, 10);

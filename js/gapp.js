@@ -8,6 +8,7 @@
         cache_time: 60,
         queryData: {},
         fetch: function(options){
+            options = options || (options = {});
             var data = options.data || (options.data = {});
             options.data = $.extend({}, this.queryData, data);
             Backbone.Model.prototype.fetch.call(this, options);
@@ -20,6 +21,7 @@
         cache_time: 60,
         queryData: {},
         fetch: function(options){
+            options = options || (options = {});
             var data = options.data || (options.data = {});
             options.data = $.extend({}, this.queryData, data);
             Backbone.Collection.prototype.fetch.call(this, options);
@@ -76,13 +78,48 @@
 
     });
 
+    var ResourceSearchView = Backbone.View.extend({
+
+        tagName: "li",
+        el: $("#app"),
+
+        resultsTemplate: _.template([
+            '<div class="result">',
+              '<h4><%= title %></h4>',
+            '</div>'
+        ].join(" ")),
+
+        events: {
+            'click #search': 'search'
+        },
+
+        initialize: function(){
+        },
+
+        search: function(e){
+            alert(e);
+        },
+
+        render: function(){
+            alert(1);
+        }
+
+    });
 
     this.GAPP = {
-        Resource: Resource,
-        ResourceCollection: ResourceCollection,
-        SavedSearch: SavedSearch,
-        SavedSearchCollection: SavedSearchCollection
+        'models': {
+            Resource: Resource,
+            SavedSearch: SavedSearch
+        },
+        'collections': {
+            SavedSearchCollection: SavedSearchCollection,
+            ResourceCollection: ResourceCollection
+        },
+        'resources': new ResourceCollection(),
+        'searches': new SavedSearchCollection()
     };
+
+    var App = new ResourceSearchView();
 
 
 }).call(this);

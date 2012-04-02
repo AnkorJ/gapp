@@ -22,7 +22,6 @@
   <script src="js/libs/backbone-min.js"></script>
   <script src="js/libs/locache.js"></script>
   <script src="js/gapp.js"></script>
-  <script src="js/script.js"></script>
 
 </head>
 <body>
@@ -45,43 +44,32 @@
 
     <h2>NHS Social Prescribing for people living with Long Term Conditions</h2>
 
-    <div class="span-8">
+    <div id="app">
 
-      <a href=".">Start again</a>
+      <div class="span-8">
+        <a href=".">Start again</a>
+        <h4>Saved searches</h4>
+        <a href=".">Saved Search</a><br/>
+        <a href=".">Saved Search</a><br/>
+        <a href=".">Saved Search</a><br/>
+        <a href=".">Saved Search</a><br/>
+        <a href=".">Saved Search</a><br/>
+        <a href=".">Saved Search</a><br/>
+        <a href=".">Saved Search</a><br/>
+        <a href=".">Saved Search</a><br/>
+      </div>
 
-      <h4>Saved searches</h4>
-
-      <a href=".">Saved Search</a><br/>
-      <a href=".">Saved Search</a><br/>
-      <a href=".">Saved Search</a><br/>
-      <a href=".">Saved Search</a><br/>
-      <a href=".">Saved Search</a><br/>
-      <a href=".">Saved Search</a><br/>
-      <a href=".">Saved Search</a><br/>
-      <a href=".">Saved Search</a><br/>
-
-    </div>
-
-    <div class="span-16 last">
-
-      <div>
-
-        <form method="post" action=".">
-
+      <div class="span-16 last">
+        <form method="get" action="." id="search_form">
           <label for="id_location" class="required">Location:</label>
           <input id="id_location" type="text" name="location" />
-
           <label for="id_query" class="required">Text:</label>
           <input id="id_query" type="text" name="username" />
-
-          <input type="submit" value="Search now" />
-
+          <input id="search" type="submit" value="Search now" />
         </form>
-
       </div>
 
     </div>
-
 
   </div>
 
