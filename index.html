@@ -21,6 +21,7 @@
   <script src="js/libs/underscore-min.js"></script>
   <script src="js/libs/backbone-min.js"></script>
   <script src="js/libs/locache.js"></script>
+  <script src="js/plugins.js"></script>
   <script src="js/gapp.js"></script>
 
 </head>
@@ -49,14 +50,14 @@
       <div class="span-8">
         <a href=".">Start again</a>
         <h4>Saved searches</h4>
-        <a href=".">Saved Search</a><br/>
-        <a href=".">Saved Search</a><br/>
-        <a href=".">Saved Search</a><br/>
-        <a href=".">Saved Search</a><br/>
-        <a href=".">Saved Search</a><br/>
-        <a href=".">Saved Search</a><br/>
-        <a href=".">Saved Search</a><br/>
-        <a href=".">Saved Search</a><br/>
+        <a href="." class="saved_search">Saved Search</a><br/>
+        <a href="." class="saved_search">Saved Search</a><br/>
+        <a href="." class="saved_search">Saved Search</a><br/>
+        <a href="." class="saved_search">Saved Search</a><br/>
+        <a href="." class="saved_search">Saved Search</a><br/>
+        <a href="." class="saved_search">Saved Search</a><br/>
+        <a href="." class="saved_search">Saved Search</a><br/>
+        <a href="." class="saved_search">Saved Search</a><br/>
       </div>
 
       <div class="span-16 last">
@@ -64,9 +65,12 @@
           <label for="id_location" class="required">Location:</label>
           <input id="id_location" type="text" name="location" />
           <label for="id_query" class="required">Text:</label>
-          <input id="id_query" type="text" name="username" />
+          <input id="id_query" type="text" name="query" />
           <input id="search" type="submit" value="Search now" />
         </form>
+
+        <div id="search_results">
+        </div>
       </div>
 
     </div>

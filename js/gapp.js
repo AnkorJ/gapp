@@ -1,4 +1,4 @@
-(function() {
+$(function(){
 
     var GAPP = {};
 
@@ -78,48 +78,81 @@
 
     });
 
-    var ResourceSearchView = Backbone.View.extend({
+    var SearchView = Backbone.View.extend({
 
         tagName: "li",
         el: $("#app"),
 
-        resultsTemplate: _.template([
-            '<div class="result">',
-              '<h4><%= title %></h4>',
-            '</div>'
-        ].join(" ")),
+        template: _.template("<% _.each(resources, function(resource) { %> <li>print(resource)</li> <% }); %>"),
 
         events: {
-            'click #search': 'search'
+            'click #search': 'search',
+            'click .saved_search': 'saved_search'
         },
 
+        results: new ResourceCollection(),
+
         initialize: function(){
+
+            this.results.bind('reset', this.render, this);
+
         },
 
         search: function(e){
-            alert(e);
+
+            console.log("search");
+
+            e.preventDefault();
+
+            this.results.fetch({data:$('#search_form').serializeHash()});
+
+            e.preventDefault();
+            return false;
+        },
+
+        saved_search: function (e) {
+
+            console.log("saved_search");
+
+            e.preventDefault();
+
+            console.log($(e.currentTarget).html());
+            this.results.fetch({
+                'location': $(e.currentTarget).html(),
+                'query': $(e.currentTarget).html()
+            });
+
+            return false;
         },
 
         render: function(){
-            alert(1);
+
+            var context = {resources: this.results.toJSON()};
+            console.log(context);
+            $('#search_results').html(this.template(context));
+
+            return false;
+
+
         }
 
     });
 
-    this.GAPP = {
-        'models': {
+
+    GAPP = {
+        models: {
             Resource: Resource,
             SavedSearch: SavedSearch
         },
-        'collections': {
+        collections: {
             SavedSearchCollection: SavedSearchCollection,
             ResourceCollection: ResourceCollection
         },
-        'resources': new ResourceCollection(),
-        'searches': new SavedSearchCollection()
+        views: {
+            SearchView: SearchView
+        }
     };
 
-    var App = new ResourceSearchView();
+    var app = new SearchView();
 
-
-}).call(this);
+});

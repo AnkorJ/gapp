@@ -20,7 +20,7 @@ $(function(){
      */
 
     Backbone.sync = function(method, model, options) {
-
+console.log(options);
         var getValue = function(object, prop) {
             if (!(object && object[prop])) return null;
             return _.isFunction(object[prop]) ? object[prop]() : object[prop];
@@ -66,6 +66,20 @@ $(function(){
 
         // Make the request, allowing the user to override any Ajax options.
         return $.ajax(_.extend(params, options));
+    };
+
+    $.fn.serializeHash = function(){
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            o[this.name] = this.value;
+        });
+        console.log(o);
+        return o;
+    };
+
+    _.templateSettings = {
+        interpolate : /\{\{(.+?)\}\}/g
     };
 
 });
