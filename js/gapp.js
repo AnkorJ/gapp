@@ -1,5 +1,7 @@
 $(function(){
 
+    locache.flush();
+
     var GAPP = {};
 
     var BaseModel = Backbone.Model.extend({
@@ -83,7 +85,7 @@ $(function(){
         tagName: "li",
         el: $("#app"),
 
-        template: _.template("<% _.each(resources, function(resource) { %> <li>print(resource)</li> <% }); %>"),
+        template: _.template($('#result-template').html()),
 
         events: {
             'click #search': 'search',
@@ -100,8 +102,6 @@ $(function(){
 
         search: function(e){
 
-            console.log("search");
-
             e.preventDefault();
 
             this.results.fetch({data:$('#search_form').serializeHash()});
@@ -112,11 +112,8 @@ $(function(){
 
         saved_search: function (e) {
 
-            console.log("saved_search");
-
             e.preventDefault();
 
-            console.log($(e.currentTarget).html());
             this.results.fetch({
                 'location': $(e.currentTarget).html(),
                 'query': $(e.currentTarget).html()
@@ -128,10 +125,9 @@ $(function(){
         render: function(){
 
             var context = {resources: this.results.toJSON()};
-            console.log(context);
             $('#search_results').html(this.template(context));
 
-            return false;
+            return this;
 
 
         }

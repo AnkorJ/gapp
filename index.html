@@ -81,5 +81,15 @@
 
   </footer>
 
+  <script type="text/template" id="result-template">
+
+    <ul>
+      <% _.each(resources, function(resource) { %>
+          <li><%= resource.title %></li>
+      <% }); %>
+    </ul>
+
+  </script>
+
 </body>
 </html>

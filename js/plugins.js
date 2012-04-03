@@ -20,7 +20,7 @@ $(function(){
      */
 
     Backbone.sync = function(method, model, options) {
-console.log(options);
+
         var getValue = function(object, prop) {
             if (!(object && object[prop])) return null;
             return _.isFunction(object[prop]) ? object[prop]() : object[prop];
@@ -74,12 +74,7 @@ console.log(options);
         $.each(a, function() {
             o[this.name] = this.value;
         });
-        console.log(o);
         return o;
-    };
-
-    _.templateSettings = {
-        interpolate : /\{\{(.+?)\}\}/g
     };
 
 });
