@@ -167,7 +167,6 @@ $(function(){
         },
 
         showLoading: function(){
-            console.log(this.templateLoading);
             this.render(this.templateLoading);
         },
 
@@ -207,15 +206,15 @@ $(function(){
         },
 
         render: function(template){
-            if (!template){
+            if (!$.isFunction(template)){
                 template = this.template;
             }
-            console.log(template);
             var context = _.clone(this.results.currentQueryData || {});
             context.resources =  this.results.toJSON();
             context.pageNumber = this.results.pageNumber + 1;
             $('#search_results').html(template(context));
             this.delegateEvents();
+            return this;
         }
 
     });
