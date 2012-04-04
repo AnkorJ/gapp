@@ -146,48 +146,42 @@ $(function(){
         },
 
         search: function(e){
-
-            console.log("search");
-
             e.preventDefault();
-
             this.results.fetch({data:$('#search_form').serializeHash()});
-
-            e.preventDefault();
             return false;
         },
 
-        saved_search: function (e) {
-
-            e.preventDefault();
-
+        saved_search: function (event) {
+            event.preventDefault();
             this.results.fetch({
                 'location': $(e.currentTarget).html(),
                 'query': $(e.currentTarget).html()
             });
+            return false;
+        },
 
+        nextPage: function(event){
+            event.preventDefault();
+            this.results.nextPage();
+            return false;
+        },
+
+        previousPage: function(){
+            event.preventDefault();
+            this.results.previousPage();
+            return false;
+        },
+
+        firstPage: function(){
+            event.preventDefault();
+            this.results.firstPage();
             return false;
         },
 
         render: function(){
-
             var context = {resources: this.results.toJSON()};
             $('#search_results').html(this.template(context));
-
             this.delegateEvents();
-
-        },
-
-        nextPage: function(){
-            this.results.nextPage();
-        },
-
-        previousPage: function(){
-            this.results.previousPage();
-        },
-
-        firstPage: function(){
-            this.results.firstPage();
         }
 
     });
