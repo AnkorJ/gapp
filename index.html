@@ -10,11 +10,11 @@
   <meta name="description" content="">
 
   <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/blueprint/screen.css">
   <!--[if lt IE 8]>
     <link rel="stylesheet" href="../../blueprint/ie.css" type="text/css" media="screen, projection">
   <![endif]-->
+  <link rel="stylesheet" href="css/style.css">
 
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
   <script src="js/libs/jquery-1.7.js"></script>
@@ -27,51 +27,82 @@
 </head>
 <body>
 
-  <header>
-
-  </header>
-
   <div class="container" role="main">
 
-    <ul id="menu" class="span-24">
-      <li>home</li>
-      <li>aliss information &amp; login</li>
-      <li>contact us</li>
-      <li>terms &amp; conditions</li>
-      <li>help</li>
-    </ul>
+    <div id="header" class="span-24 last">
 
-    <span class="clearfix"></span>
+      <div class="prepend-1 span-18">
 
-    <h2>NHS Social Prescribing for people living with Long Term Conditions</h2>
+        <ul id="menu" class="span-20">
+          <li>home</li>
+          <li>aliss information &amp; login</li>
+          <li>contact us</li>
+          <li>terms &amp; conditions</li>
+          <li>help</li>
+        </ul>
 
-    <div id="app">
+        <span class="clearfix"></span>
+        <h1>NHS Social Prescribing for <br/>people living with Long Term Conditions</h1>
 
-      <div class="span-8">
-        <a href=".">Start again</a>
-        <h4>Saved searches</h4>
-        <a href="." class="saved_search">Saved Search</a><br/>
-        <a href="." class="saved_search">Saved Search</a><br/>
-        <a href="." class="saved_search">Saved Search</a><br/>
-        <a href="." class="saved_search">Saved Search</a><br/>
-        <a href="." class="saved_search">Saved Search</a><br/>
-        <a href="." class="saved_search">Saved Search</a><br/>
-        <a href="." class="saved_search">Saved Search</a><br/>
-        <a href="." class="saved_search">Saved Search</a><br/>
       </div>
 
-      <div class="span-16 last">
-        <form method="get" action="." id="search_form">
-          <label for="id_location" class="required">Location:</label>
-          <input id="id_location" type="text" name="location" />
-          <label for="id_query" class="required">Text:</label>
-          <input id="id_query" type="text" name="query" />
-          <input id="search" type="submit" value="Search now" />
+      <div class="span-4 append-1 last">
+
+        <img src="img/nhs_logo_blue_150.jpg" />
+
+      </div>
+
+    </div>
+
+    <div id="app" class="span-24 last">
+
+      <div id="app_left" class="span-5">
+
+        <a href="." class="span-4 last big_link">Start again</a>
+
+        <h3 class="span-5 last">Saved searches</h3>
+
+        <div id="saved_searches">
+          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
+          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
+          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
+          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
+          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
+          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
+          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
+          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
+        </div>
+
+      </div>
+
+      <div id="app_search" class="span-18 bordered last">
+
+        <form method="get" action="." id="search_form" class="span-17 last">
+
+          <label for="id_location" class="required span-7">Location:</label>
+          <input id="id_location" type="text" name="location" class="span-10 last" />
+
+          <span class="clearfix"></span>
+
+          <label for="id_query" class="required span-7">Text:</label>
+          <input id="id_query" type="text" name="query" class="span-10 last"/>
+
+          <input id="search" type="submit" value="Search now" class="span-5 prepend-7" />
+
         </form>
 
-        <div id="search_results">
+        <span class="clearfix"></div>
 
-          <h4>How to search</h4>
+        <div id="search_filters" class="span-19 last">
+          <span class="span-3 prepend-2 append-1">Filter results:</span>
+          <a class="big_link span-3">All</a>
+          <a class="big_link span-3">Practice</a>
+          <a class="big_link span-3">Local</a>
+        </div>
+
+        <div id="search_results" class="span-19 last">
+
+          <h2>How to search</h2>
 
         </div>
 
@@ -81,11 +112,9 @@
 
   </div>
 
-  <footer>
-
-  </footer>
-
   <script type="text/template" id="result-template">
+
+    <h2>Search results for <%= query %></h2>
 
     <ul>
       <% _.each(resources, function(resource) { %>
@@ -98,7 +127,12 @@
     <a href="#" class="next">Next</a>
     <a href="#" class="last">Last</a>
 
+  </script>
 
+  <script type="text/template" id="saved-search">
+      <% _.each(savedSearch, function(saved) { %>
+          <a href="." class="span-4 last big_link saved_search" data-query="<%= saved.query %>" data-location="<%= saved.location %>"><%= saved.query %></a>
+      <% }); %>
   </script>
 
 </body>
