@@ -9,12 +9,16 @@ $(function(){
         cache: true,
         cache_time: 60,
         queryData: {},
+        currentQueryData: {},
+
         fetch: function(options){
             options = options || (options = {});
             var data = options.data || (options.data = {});
             options.data = $.extend({}, this.queryData, data);
+            this.currentQueryData = options.data;
             Backbone.Model.prototype.fetch.call(this, options);
         }
+
     });
 
     var BaseCollection = Backbone.Collection.extend({
@@ -22,12 +26,16 @@ $(function(){
         cache: true,
         cache_time: 60,
         queryData: {},
+        currentQueryData: {},
+
         fetch: function(options){
             options = options || (options = {});
             var data = options.data || (options.data = {});
             options.data = $.extend({}, this.queryData, data);
+            this.currentQueryData = options.data;
             Backbone.Collection.prototype.fetch.call(this, options);
         }
+
     });
 
     var Resource = BaseModel.extend({
@@ -64,8 +72,42 @@ $(function(){
             'bootlocation': 10
         },
 
+        pageNumber: 0,
+
         parse: function(result) {
             return result.data[0].results;
+        },
+
+        nextPage: function(){
+
+            // If this page has less than the max per page, we are alread
+            if(this.length < this.queryData.max){
+                return;
+            }
+            var page = this.pageNumber + 1;
+            this.goToPage(page);
+        },
+
+        previousPage: function(){
+            var page = this.pageNumber - 1;
+            if (page < 0){
+                page = 0;
+            }
+            this.goToPage(page);
+        },
+
+        firstPage: function(){
+            var page = 0;
+            this.goToPage(0);
+        },
+
+        goToPage: function(pageNumber){
+
+            this.pageNumber = pageNumber;
+            var data = _.clone(this.currentQueryData);
+            data.start = data.max * this.pageNumber;
+            this.fetch({data:data});
+
         }
 
     });
@@ -89,7 +131,10 @@ $(function(){
 
         events: {
             'click #search': 'search',
-            'click .saved_search': 'saved_search'
+            'click .saved_search': 'saved_search',
+            'click .next': 'nextPage',
+            'click .previous': 'previousPage',
+            'click .first': 'firstPage'
         },
 
         results: new ResourceCollection(),
@@ -101,6 +146,8 @@ $(function(){
         },
 
         search: function(e){
+
+            console.log("search");
 
             e.preventDefault();
 
@@ -127,9 +174,20 @@ $(function(){
             var context = {resources: this.results.toJSON()};
             $('#search_results').html(this.template(context));
 
-            return this;
+            this.delegateEvents();
 
+        },
 
+        nextPage: function(){
+            this.results.nextPage();
+        },
+
+        previousPage: function(){
+            this.results.previousPage();
+        },
+
+        firstPage: function(){
+            this.results.firstPage();
         }
 
     });

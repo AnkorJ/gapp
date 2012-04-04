@@ -39,11 +39,16 @@ $(function(){
             params.url = getValue(model, 'url') || urlError();
         }
 
+        var cache_key = params.url + $.param(options.data);
+
         if (model.cache){
-            var cached_response = locache.get(params.url);
+            var cached_response = locache.get(cache_key);
             if (cached_response && options.success){
+                console.log("Cache hit: " + cache_key);
                 options.success(cached_response, "success", {});
                 return;
+            } else{
+                console.log("Cache miss: " + cache_key);
             }
         }
 
@@ -60,7 +65,7 @@ $(function(){
 
         var success = options.success;
         options.success = function(resp, status, xhr) {
-            if (model.cache) locache.set(params.url, resp, model.cache_time);
+            if (model.cache) locache.set(cache_key, resp, model.cache_time);
             if (success) success(resp, status, xhr);
         };
 

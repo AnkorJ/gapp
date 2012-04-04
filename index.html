@@ -17,9 +17,9 @@
   <![endif]-->
 
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
-  <script src="js/libs/jquery-1.7-min.js"></script>
-  <script src="js/libs/underscore-min.js"></script>
-  <script src="js/libs/backbone-min.js"></script>
+  <script src="js/libs/jquery-1.7.js"></script>
+  <script src="js/libs/underscore.js"></script>
+  <script src="js/libs/backbone.js"></script>
   <script src="js/libs/locache.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/gapp.js"></script>
@@ -70,7 +70,11 @@
         </form>
 
         <div id="search_results">
+
+          <h4>How to search</h4>
+
         </div>
+
       </div>
 
     </div>
@@ -88,6 +92,12 @@
           <li><%= resource.title %></li>
       <% }); %>
     </ul>
+
+    <a href="#" class="first">First</a>
+    <a href="#" class="previous">Previous</a>
+    <a href="#" class="next">Next</a>
+    <a href="#" class="last">Last</a>
+
 
   </script>
 
