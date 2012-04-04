@@ -1,7 +1,5 @@
 $(function(){
 
-    locache.flush();
-
     var GAPP = {};
 
     var BaseModel = Backbone.Model.extend({
@@ -118,7 +116,19 @@ $(function(){
 
     var SavedSearchCollection = BaseCollection.extend({
 
-        model: SavedSearch
+        model: SavedSearch,
+
+        fetch: function(){
+            this.reset([{
+                query: "substance abuse"
+            },{
+                query: "cancer"
+            },{
+                query: "mental health"
+            },{
+                query: "cafe"
+            }]);
+        }
 
     });
 
@@ -128,6 +138,7 @@ $(function(){
         el: $("#app"),
 
         template: _.template($('#result-template').html()),
+        templateLoading: _.template($('#result-loading').html()),
 
         events: {
             'click #search': 'search',
@@ -143,20 +154,37 @@ $(function(){
 
             this.results.bind('reset', this.render, this);
 
+            var savedSearches = new SavedSearchCollection();
+
+            savedSearches.on('reset', function(){
+                $('#saved_searches').html(_.template($('#saved-search').html(), {
+                    savedSearch: savedSearches.toJSON()
+                }));
+            });
+
+            savedSearches.fetch();
+
         },
 
-        search: function(e){
-            e.preventDefault();
+        showLoading: function(){
+            console.log(this.templateLoading);
+            this.render(this.templateLoading);
+        },
+
+        search: function(event){
+            event.preventDefault();
             this.results.fetch({data:$('#search_form').serializeHash()});
+            this.showLoading();
             return false;
         },
 
         saved_search: function (event) {
             event.preventDefault();
-            this.results.fetch({
-                'location': $(e.currentTarget).html(),
-                'query': $(e.currentTarget).html()
-            });
+            this.results.fetch({data:{
+                'location': $(event.currentTarget).data('location'),
+                'query': $(event.currentTarget).data('query')
+            }});
+            this.showLoading();
             return false;
         },
 
@@ -166,21 +194,27 @@ $(function(){
             return false;
         },
 
-        previousPage: function(){
+        previousPage: function(event){
             event.preventDefault();
             this.results.previousPage();
             return false;
         },
 
-        firstPage: function(){
+        firstPage: function(event){
             event.preventDefault();
             this.results.firstPage();
             return false;
         },
 
-        render: function(){
-            var context = {resources: this.results.toJSON()};
-            $('#search_results').html(this.template(context));
+        render: function(template){
+            if (!template){
+                template = this.template;
+            }
+            console.log(template);
+            var context = _.clone(this.results.currentQueryData || {});
+            context.resources =  this.results.toJSON();
+            context.pageNumber = this.results.pageNumber + 1;
+            $('#search_results').html(template(context));
             this.delegateEvents();
         }
 

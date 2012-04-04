@@ -63,14 +63,6 @@
         <h3 class="span-5 last">Saved searches</h3>
 
         <div id="saved_searches">
-          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
-          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
-          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
-          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
-          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
-          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
-          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
-          <a href="." class="span-4 last big_link saved_search">Saved Search</a>
         </div>
 
       </div>
@@ -100,7 +92,7 @@
           <a class="big_link span-3">Local</a>
         </div>
 
-        <div id="search_results" class="span-19 last">
+        <div id="search_results" class="box span-18 last">
 
           <h2>How to search</h2>
 
@@ -112,26 +104,64 @@
 
   </div>
 
+
+  <script type="text/template" id="result-loading">
+
+      <% if (location && query){ %>
+        <h2>Resources found for &ldquo;<%= query %>&rdquo; found in &ldquo;<%= location %>&rdquo;</h2>
+      <% } else if (location) {%>
+        <h2>Resources found in &ldquo;<%= location %>&rdquo;</h2>
+      <% } else if (query) {%>
+        <h2>Resources found for &ldquo;<%= query %>&rdquo;</h2>
+      <% } %>
+
+      <p>Loading...</p>
+
+  </script>
+
   <script type="text/template" id="result-template">
 
-    <h2>Search results for <%= query %></h2>
+      <% if (location && query){ %>
+        <h2>Resources found for &ldquo;<%= query %>&rdquo; found in &ldquo;<%= location %>&rdquo;</h2>
+      <% } else if (location) {%>
+        <h2>Resources found in &ldquo;<%= location %>&rdquo;</h2>
+      <% } else if (query) {%>
+        <h2>Resources found for &ldquo;<%= query %>&rdquo;</h2>
+      <% } %>
 
-    <ul>
-      <% _.each(resources, function(resource) { %>
-          <li><%= resource.title %></li>
-      <% }); %>
-    </ul>
+    <% if (resources.length == 0){ %>
 
-    <a href="#" class="first">First</a>
-    <a href="#" class="previous">Previous</a>
-    <a href="#" class="next">Next</a>
-    <a href="#" class="last">Last</a>
+      <p>Sorry, we couldn\t find anything. Try a more general search.</p>
+
+    <% } else { %>
+
+      <ul>
+        <% _.each(resources, function(resource) { %>
+            <li><%= resource.title %></li>
+        <% }); %>
+      </ul>
+
+      <p>
+        <% if (start > 1) { %>
+        <a href="#" class="first">First</a>
+        <% } %>
+
+        <% if (start > 0) { %>
+        <a href="#" class="previous">Previous</a>
+        <% } %>
+
+        Page <%= pageNumber %>
+        <a href="#" class="next">Next</a>
+        <a href="#" class="last">Last</a>
+      </p>
+
+    <% } %>
 
   </script>
 
   <script type="text/template" id="saved-search">
       <% _.each(savedSearch, function(saved) { %>
-          <a href="." class="span-4 last big_link saved_search" data-query="<%= saved.query %>" data-location="<%= saved.location %>"><%= saved.query %></a>
+          <a href="#" class="span-4 last big_link saved_search" data-query="<%= saved.query %>" data-location="<%= saved.location %>"><%= saved.query %></a>
       <% }); %>
   </script>
 
