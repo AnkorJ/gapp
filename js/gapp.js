@@ -275,9 +275,13 @@ $(function(){
 
         saved_search: function (event) {
             event.preventDefault();
+            var location = $(event.currentTarget).data('location');
+            var query = $(event.currentTarget).data('query');
+            $('#id_location').val(location);
+            $('#id_query').val(query);
             this.results.fetch({data:{
-                'location': $(event.currentTarget).data('location'),
-                'query': $(event.currentTarget).data('query')
+                'location': location,
+                'query': query
             }});
             this.showLoading();
             return false;

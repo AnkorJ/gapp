@@ -125,13 +125,13 @@
 
   <script type="text/template" id="result-template">
 
-      <% if (location && query){ %>
-        <h2>Resources found for &ldquo;<%= query %>&rdquo; found in &ldquo;<%= location %>&rdquo;</h2>
-      <% } else if (location) {%>
-        <h2>Resources found in &ldquo;<%= location %>&rdquo;</h2>
-      <% } else if (query) {%>
-        <h2>Resources found for &ldquo;<%= query %>&rdquo;</h2>
-      <% } %>
+    <% if (location && query){ %>
+      <h2>Resources found for &ldquo;<%= query %>&rdquo; in &ldquo;<%= location %>&rdquo;</h2>
+    <% } else if (location) {%>
+      <h2>Resources found in &ldquo;<%= location %>&rdquo;</h2>
+    <% } else if (query) {%>
+      <h2>Resources found for &ldquo;<%= query %>&rdquo;</h2>
+    <% } %>
 
     <% if (resources.length == 0){ %>
 
@@ -139,11 +139,13 @@
 
     <% } else { %>
 
-      <ul>
-        <% _.each(resources, function(resource) { %>
-            <li><%= resource.title %></li>
-        <% }); %>
-      </ul>
+      <% _.each(resources, function(resource) { %>
+          <% start++; %>
+          <% var desc = resource.description; %>
+          <h3><%= start %>. <%= resource.title %></h3>
+          <p><%= desc %></p>
+          <hr/>
+      <% }); %>
 
       <p>
         <% if (start > 1) { %>

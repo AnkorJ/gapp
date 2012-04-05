@@ -45,7 +45,7 @@ $(function(){
         var rs = new GAPP.collections.ResourceCollection();
         rs.fetch({
             'success': function(){
-                strictEqual(rs.length, 30);
+                strictEqual(rs.length, 10);
                 start();
             }
         });
@@ -62,11 +62,11 @@ $(function(){
         var rs = new GAPP.collections.ResourceCollection();
         rs.fetch({
             'success': function(){
-                strictEqual(rs.length, 10);
+                strictEqual(rs.length, 5);
                 start();
             },
             'data': {
-                max: 10,
+                max: 5,
                 query: "health",
                 location: "glasgow"
             }
@@ -83,10 +83,10 @@ $(function(){
         var rs = new GAPP.collections.ResourceCollection();
         rs.fetch({
             'success': function(){
-                strictEqual(rs.length, 10);
+                strictEqual(rs.length, 5);
             },
             'data': {
-                max: 10,
+                max: 5,
                 query: "health",
                 location: "glasgow"
             }
