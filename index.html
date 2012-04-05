@@ -139,10 +139,10 @@
 
     <% } else { %>
 
-      <% _.each(resources, function(resource) { %>
-          <% start++; %>
+      <% var counter = start; _.each(resources, function(resource) { %>
+          <% counter++; %>
           <% var desc = resource.description; %>
-          <h3><%= start %>. <%= resource.title %></h3>
+          <h3><%= counter %>. <%= resource.title %></h3>
           <p><%= desc %></p>
           <hr/>
       <% }); %>
