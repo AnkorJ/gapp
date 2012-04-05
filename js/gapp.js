@@ -39,9 +39,6 @@ $(function(){
     var Resource = BaseModel.extend({
 
         queryData: {
-            'max': 30,
-            'start': 0,
-            'bootlocation': 10
         },
 
         url: function(){
@@ -65,7 +62,7 @@ $(function(){
         url: 'http://www.aliss.org/api/resources/search/',
 
         queryData: {
-            'max': 30,
+            'max': 10,
             'start': 0,
             'bootlocation': 10
         },
@@ -120,14 +117,104 @@ $(function(){
 
         fetch: function(){
             this.reset([{
+                query: "substance abuse",
+                location: "glasgow"
+            },{
+                query: "substance abuse",
+                location: 'aberdeen'
+            },{
+                query: "substance abuse"
+            },{
+                query: "mental health"
+            },{
+                query: "cafe"
+            },{
+                query: "multiple sclerosis"
+            },{
                 query: "substance abuse"
             },{
                 query: "cancer"
             },{
                 query: "mental health"
             },{
-                query: "cafe"
+                query: "multiple sclerosis"
             }]);
+        }
+
+    });
+
+    var GoogleMapView = Backbone.View.extend({
+
+        markers: [],
+        mapInitialized: false,
+
+        initialize: function(options){
+            this.results = options.results;
+            this.$el.hide();
+        },
+
+        initMap: function(){
+            this.map = new google.maps.Map(this.el, {
+              zoom: 13,
+              mapTypeId: google.maps.MapTypeId.ROADMAP,
+              center: new google.maps.LatLng(55.848125, -4.437196)
+            });
+            this.mapInitialized = true;
+        },
+
+        addMarker: function(position, content){
+
+            var map = this.map;
+
+            var marker = new google.maps.Marker({
+                map: this.map,
+                animation: google.maps.Animation.DROP,
+                position: position
+            });
+
+            this.markers.push(marker);
+
+            var infowindow = new google.maps.InfoWindow({
+                content: content
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, marker);
+            });
+
+        },
+
+        render: function(){
+
+            if (this.results.length === 0){
+                return;
+            }
+
+            if(!this.mapInitialized){
+                this.$el.show();
+                this.initMap();
+            }
+
+            _.each(this.markers, function(marker){
+                marker.setMap(null);
+            });
+            this.markers = [];
+
+            var that = this;
+
+            var markerbounds = new google.maps.LatLngBounds();
+
+            this.results.each(function(resource){
+                _.each(resource.get('locations'), function(location){
+                    var latlng = location.split(', ');
+                    var glatlng = new google.maps.LatLng(latlng[0], latlng[1]);
+                    markerbounds.extend(glatlng);
+                    that.addMarker(glatlng, resource.title);
+                });
+            });
+
+            this.map.fitBounds(markerbounds);
+
         }
 
     });
@@ -153,7 +240,7 @@ $(function(){
 
         initialize: function(){
 
-            this.results.bind('reset', this.render, this);
+            this.results.on('reset', this.render, this);
 
             var savedSearches = new SavedSearchCollection();
 
@@ -165,6 +252,13 @@ $(function(){
             });
 
             savedSearches.fetch();
+
+            var map = new GoogleMapView({
+                el: $('#search_map'),
+                results: this.results
+            });
+
+            this.results.on('reset', map.render, map);
 
         },
 
@@ -208,6 +302,7 @@ $(function(){
         },
 
         render: function(template){
+
             if (!$.isFunction(template)){
                 template = this.template;
             }
