@@ -137,8 +137,9 @@ $(function(){
         tagName: "li",
         el: $("#app"),
 
-        template: _.template($('#result-template').html()),
-        templateLoading: _.template($('#result-loading').html()),
+        template: _.template($('#result-template').html() || ""),
+        templateLoading: _.template($('#result-loading').html() || ""),
+        templateSavedSearches: _.template($('#saved-search').html() || ""),
 
         events: {
             'click #search': 'search',
@@ -156,8 +157,9 @@ $(function(){
 
             var savedSearches = new SavedSearchCollection();
 
+            var tmpl = this.templateSavedSearches;
             savedSearches.on('reset', function(){
-                $('#saved_searches').html(_.template($('#saved-search').html(), {
+                $('#saved_searches').html(tmpl({
                     savedSearch: savedSearches.toJSON()
                 }));
             });
@@ -220,7 +222,7 @@ $(function(){
     });
 
 
-    GAPP = {
+    window.GAPP = GAPP = {
         models: {
             Resource: Resource,
             SavedSearch: SavedSearch

@@ -44,11 +44,14 @@ $(function(){
         if (model.cache){
             var cached_response = locache.get(cache_key);
             if (cached_response && options.success){
-                console.log("Cache hit: " + cache_key);
-                options.success(cached_response, "success", {});
+                console.log("CACHE HIT : " + cache_key);
+                var success_f = options.success;
+                if (success_f) {
+                    success_f(cached_response, "success", {});
+                }
                 return;
             } else{
-                console.log("Cache miss: " + cache_key);
+                console.log("cache miss: " + cache_key);
             }
         }
 

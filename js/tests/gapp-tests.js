@@ -67,11 +67,30 @@ $(function(){
             },
             'data': {
                 max: 10,
-                query: "health"
+                query: "health",
+                location: "glasgow"
             }
         });
 
         stop();
+
+    });
+
+    test("fetching a cached result", function(){
+
+        expect(1);
+
+        var rs = new GAPP.collections.ResourceCollection();
+        rs.fetch({
+            'success': function(){
+                strictEqual(rs.length, 10);
+            },
+            'data': {
+                max: 10,
+                query: "health",
+                location: "glasgow"
+            }
+        });
 
     });
 
