@@ -2,17 +2,20 @@ window.log = function f(){ log.history = log.history || []; log.history.push(arg
 (function(a){function b(){}for(var c="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),d;!!(d=c.pop());){a[d]=a[d]||b;}})
 (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
 
+/*jshint asi:true */
+
 $(function(){
+
+    "use strict";
 
     var wrap = function(func, pre, post){
         return function(){
-            var callee = arguments.callee;
-            var args = arguments;
-            pre();
-            func.apply(callee, args);
-            post();
-      };
-    };
+            var callee = arguments.callee
+            pre()
+            func.apply(callee, arguments)
+            post()
+      }
+    }
 
     /*
      * Replace Backbone.sync with a sync function that uses JSONP and always
@@ -22,67 +25,62 @@ $(function(){
     Backbone.sync = function(method, model, options) {
 
         var getValue = function(object, prop) {
-            if (!(object && object[prop])) return null;
-            return _.isFunction(object[prop]) ? object[prop]() : object[prop];
-        };
+            if (!(object && object[prop])) return null
+            return _.isFunction(object[prop]) ? object[prop]() : object[prop]
+        }
 
-        var type = 'GET';
+        var type = 'GET'
 
         // Default options, unless specified.
-        options || (options = {});
+        options || (options = {})
 
         // Default JSON-request options.
-        var params = {type: type, dataType: 'jsonp'};
+        var params = {type: type, dataType: 'jsonp'}
 
         // Ensure that we have a URL.
         if (!options.url) {
-            params.url = getValue(model, 'url') || urlError();
+            params.url = getValue(model, 'url') || urlError()
         }
 
-        var cache_key = params.url + $.param(options.data);
+        var cache_key = params.url + $.param(options.data)
 
         if (model.cache){
-            var cached_response = locache.get(cache_key);
+            var cached_response = locache.get(cache_key)
             if (cached_response && options.success){
-                console.log("CACHE HIT : " + cache_key);
-                var success_f = options.success;
+                console.log("CACHE HIT : " + cache_key)
+                var success_f = options.success
                 if (success_f) {
-                    success_f(cached_response, "success", {});
+                    success_f(cached_response, "success", {})
                 }
-                return;
+                return
             } else{
-                console.log("cache miss: " + cache_key);
+                console.log("cache miss: " + cache_key)
             }
         }
 
         // Ensure that we have the appropriate request data.
         if (!options.data && model && (method == 'create' || method == 'update')) {
-            params.contentType = 'application/json';
-            params.data = JSON.stringify(model.toJSON());
+            params.contentType = 'application/json'
+            params.data = JSON.stringify(model.toJSON())
         }
 
-        // Don't process data on a non-GET request.
-        if (params.type !== 'GET' && !Backbone.emulateJSON) {
-            params.processData = false;
-        }
-
-        var success = options.success;
+        var success = options.success
         options.success = function(resp, status, xhr) {
-            if (model.cache) locache.set(cache_key, resp, model.cache_time);
-            if (success) success(resp, status, xhr);
-        };
+            if (model.cache) locache.set(cache_key, resp, model.cache_time)
+            if (success) success(resp, status, xhr)
+        }
 
         // Make the request, allowing the user to override any Ajax options.
-        return $.ajax(_.extend(params, options));
-    };
+        return $.ajax(_.extend(params, options))
+    }
 
     $.fn.serializeHash = function(){
-        var o = {};
-        var a = this.serializeArray();
+        var o = {}
+        var a = this.serializeArray()
         $.each(a, function() {
-            o[this.name] = this.value;
-        });
-        return o;
-    };
+            o[this.name] = this.value
+        })
+        return o
+    }
 
 });

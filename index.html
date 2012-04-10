@@ -35,8 +35,8 @@
       <div class="prepend-1 span-17">
 
         <ul id="menu" class="span-18">
-          <li>home</li>
-          <li>aliss information &amp; login</li>
+          <li><a href=".">home</a></li>
+          <li><a href="http://aliss.org">aliss information &amp; login</a></li>
           <li>contact us</li>
           <li>terms &amp; conditions</li>
           <li>help</li>
@@ -102,6 +102,10 @@
 
         </div>
 
+        <div id="resourceView" class="box span-17 last">
+
+        </div>
+
       </div>
 
     </div>
@@ -111,13 +115,7 @@
 
   <script type="text/template" id="result-loading">
 
-      <% if (location && query){ %>
-        <h2>Resources found for &ldquo;<%= query %>&rdquo; found in &ldquo;<%= location %>&rdquo;</h2>
-      <% } else if (location) {%>
-        <h2>Resources found in &ldquo;<%= location %>&rdquo;</h2>
-      <% } else if (query) {%>
-        <h2>Resources found for &ldquo;<%= query %>&rdquo;</h2>
-      <% } %>
+      <h2>Searching for resources</h2>
 
       <p>Loading...</p>
 
@@ -139,11 +137,25 @@
 
     <% } else { %>
 
+      <p>
+        <% if (start > 1) { %>
+        <a href="#" class="first">First</a>
+        <% } %>
+
+        <% if (start > 0) { %>
+        <a href="#" class="previous">Previous</a>
+        <% } %>
+
+        Page <%= pageNumber %>
+        <a href="#" class="next">Next</a>
+      </p>
+
       <% var counter = start; _.each(resources, function(resource) { %>
           <% counter++; %>
           <% var desc = resource.description; %>
           <h3><%= counter %>. <%= resource.title %></h3>
           <p><%= desc %></p>
+          <a href="#" class="detail" data-id="<%= resource.id %>">View details</a>
           <hr/>
       <% }); %>
 
@@ -168,6 +180,13 @@
       <% _.each(savedSearch, function(saved) { %>
           <a href="#" class="span-4 last big_link saved_search" data-query="<%= saved.query %>" data-location="<%= saved.location %>"><%= saved.query %> <% if (saved.location){ %>(<%= saved.location%>)<% } %></a>
       <% }); %>
+  </script>
+
+
+  <script type="text/template" id="resource-template">
+
+    <%= title %>
+
   </script>
 
 </body>
