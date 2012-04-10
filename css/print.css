@@ -1,0 +1,6 @@
+#app_left, #search_filters{
+  display: none;
+}
+#app_search, #search_map, #search_results, #resourceView{
+  width: 90%;
+}
