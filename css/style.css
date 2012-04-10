@@ -65,3 +65,7 @@ h1{
 #search_map{
   height: 400px;
 }
+
+.read-more, .read-less{
+  display: none;
+}

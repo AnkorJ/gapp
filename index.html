@@ -19,6 +19,7 @@
   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
   <script src="js/libs/jquery-1.7.js"></script>
+  <script src="js/libs/jquery.expander.js"></script>
   <script src="js/libs/underscore.js"></script>
   <script src="js/libs/backbone.js"></script>
   <script src="js/libs/locache.js"></script>
@@ -154,8 +155,8 @@
           <% counter++; %>
           <% var desc = resource.description; %>
           <h3><%= counter %>. <%= resource.title %></h3>
-          <p><%= desc %></p>
-          <a href="#" class="detail" data-id="<%= resource.id %>">View details</a>
+          <span class="truncate"><%= desc %>&hellip;</span>
+          <p><a href="#" class="detail" data-id="<%= resource.id %>">View details</a></p>
           <hr/>
       <% }); %>
 
@@ -185,7 +186,12 @@
 
   <script type="text/template" id="resource-template">
 
-    <%= title %>
+          <% var desc = description; %>
+          <h3><%= title %></h3>
+          <p><%= desc %></p>
+          <hr/>
+
+          <a href="#">Edit resource</a> | <a href="#">Report Resource</a>
 
   </script>
 

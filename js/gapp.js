@@ -33,7 +33,7 @@ $(function(){
         fetch: function(options){
             options = options || (options = {})
             var data = options.data || (options.data = {})
-            options.data = $.extend({}, this.queryData, data)
+            options.data = _.extend({}, this.queryData, data)
             this.currentQueryData = options.data
             Backbone.Collection.prototype.fetch.call(this, options)
         }
@@ -79,13 +79,13 @@ $(function(){
 
         fetch: function(options){
 
-            var data = options.data;
+            var data = options.data
 
             if (data && (data.query !== this.queryData.query || data.location !== this.queryData.location)){
                 this.pageNumber = 0
             }
 
-            return BaseCollection.prototype.fetch.call(this, options);
+            return BaseCollection.prototype.fetch.call(this, options)
 
         },
 
@@ -200,28 +200,21 @@ $(function(){
 
         },
 
-        render: function(){
-
-            if (this.results.length === 0){
-                return
-            }
-
-            if(!this.mapInitialized){
-                this.$el.show()
-                this.initMap()
-            }
+        removeMarkers: function(){
 
             _.each(this.markers, function(marker){
                 marker.setMap(null)
             })
-            this.markers = []
+        },
+
+        addResourceMarkers: function(resources){
 
             var that = this
 
             var markerbounds = new google.maps.LatLngBounds()
 
-            this.results.each(function(resource){
-                _.each(resource.get('locations'), function(location){
+            _.each(resources, function(resource){
+                _.each(resource.locations, function(location){
                     var latlng = location.split(', ')
                     var glatlng = new google.maps.LatLng(latlng[0], latlng[1])
                     markerbounds.extend(glatlng)
@@ -230,6 +223,27 @@ $(function(){
             })
 
             this.map.fitBounds(markerbounds)
+
+        },
+
+        render: function(){
+
+            if (this.results.length === 0){
+                if (this.mapInitialized){
+                    this.$el.hide()
+                    this.mapInitialized = false
+                }
+                return
+            }
+
+            if(!this.mapInitialized){
+                this.$el.show()
+                this.initMap()
+            }
+
+            this.removeMarkers()
+            this.markers = []
+            this.addResourceMarkers(this.results.toJSON())
 
         }
 
@@ -252,26 +266,30 @@ $(function(){
         template: _.template($('#resource-template').html() || ""),
 
         events: {
-            'click .back': 'back'
+            'click .back': 'hide'
         },
 
         results: new ResourceCollection(),
 
         initialize: function(){
+
+            this.map = google_map
         },
 
         showResource: function(resource){
-            this.$el.html(this.template(resource.toJSON()));
-            this.show();
+            this.$el.html(this.template(resource.toJSON()))
+            this.map.addResourceMarkers([resource])
+            this.show()
         },
 
-        back: function(){
-
+        hide: function(){
+            this.$el.hide()
+            $('#search_results').show()
         },
 
         show: function(){
-            $('#search_results').hide();
-            this.$el.show();
+            $('#search_results').hide()
+            this.$el.show()
         }
 
     })
@@ -374,6 +392,7 @@ $(function(){
 
         render: function(template){
 
+            this.resourceView.hide()
             if (!$.isFunction(template)){
                 template = this.template
             }
@@ -381,6 +400,8 @@ $(function(){
             context.resources =  this.results.toJSON()
             context.pageNumber = this.results.pageNumber + 1
             $('#search_results').html(template(context))
+
+            $('span.truncate').expander({slicePoint: 200})
 
             this.delegateEvents()
             return this
