@@ -2,8 +2,6 @@
 
 $(function(){
 
-    "use strict";
-
     var GAPP = {}
 
     var BaseModel = Backbone.Model.extend({
@@ -209,6 +207,9 @@ $(function(){
 
         addResourceMarkers: function(resources){
 
+            this.removeMarkers()
+            this.markers = []
+
             var that = this
 
             var markerbounds = new google.maps.LatLngBounds()
@@ -241,10 +242,12 @@ $(function(){
                 this.initMap()
             }
 
-            this.removeMarkers()
-            this.markers = []
             this.addResourceMarkers(this.results.toJSON())
 
+        },
+
+        setZoom: function(zoom){
+            this.map.setZoom(zoom);
         }
 
     })
@@ -277,8 +280,10 @@ $(function(){
         },
 
         showResource: function(resource){
-            this.$el.html(this.template(resource.toJSON()))
-            this.map.addResourceMarkers([resource])
+            var jsonResource = resource.toJSON()
+            this.$el.html(this.template(jsonResource))
+            this.map.addResourceMarkers([jsonResource])
+            this.map.setZoom(14);
             this.show()
         },
 
