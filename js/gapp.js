@@ -285,6 +285,7 @@ $(function(){
             this.map.addResourceMarkers([jsonResource])
             this.map.setZoom(14);
             this.show()
+            this.delegateEvents()
         },
 
         hide: function(){
