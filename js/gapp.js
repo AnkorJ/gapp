@@ -2,6 +2,17 @@
 
 $(function(){
 
+    function throttle(fn, delay) {
+        var timer = null;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                fn.apply(context, args);
+            }, delay);
+        };
+    }
+
     var GAPP = {}
 
     var BaseModel = Backbone.Model.extend({
@@ -38,6 +49,8 @@ $(function(){
 
     })
 
+
+
     var Resource = BaseModel.extend({
 
         queryData: {
@@ -72,11 +85,15 @@ $(function(){
         pageNumber: 0,
 
         parse: function(result) {
-            return result.data[0].results
+            if (result.data[0]){
+                return result.data[0].results
+            }
+            return []
         },
 
         fetch: function(options){
 
+            options = options || (options = {})
             var data = options.data
 
             if (data && (data.query !== this.queryData.query || data.location !== this.queryData.location)){
@@ -119,6 +136,23 @@ $(function(){
 
         }
 
+    })
+
+    var Query = Resource.extend({
+
+        parse: function(result){
+            if (result.data){
+                return {title: result.data[0].title}
+            } else {
+                return {title: result.title}
+            }
+        }
+
+    })
+
+    var QueryCollection = ResourceCollection.extend({
+
+        model: Query
     })
 
     var SavedSearch = BaseModel.extend({
@@ -310,7 +344,9 @@ $(function(){
         templateSavedSearches: _.template($('#saved-search').html() || ""),
 
         events: {
-            'click #search': 'search',
+            'keypress #id_query': 'search_auto',
+            'keypress #id_location': 'search_auto',
+            'click #search': 'search_click',
             'click .saved_search': 'saved_search',
             'click .next': 'nextPage',
             'click .previous': 'previousPage',
@@ -342,18 +378,30 @@ $(function(){
 
             this.resourceView = new ResourceView()
 
+            this.setupAutocomplete()
+            this.search_timer = null
+
         },
 
         showLoading: function(){
             this.render(this.templateLoading)
         },
 
-        search: function(event){
-            event.preventDefault()
+        search: function(){
             this.showLoading()
             this.results.fetch({data:$('#search_form').serializeHash()})
+        },
+
+        search_click: function(event){
+            event.preventDefault()
+            this.search()
             return false
         },
+
+        search_auto: throttle(function(event){
+            this.search()
+            return true
+        }, 500),
 
         saved_search: function (event) {
             event.preventDefault()
@@ -362,11 +410,7 @@ $(function(){
 
             $('#id_location').val(location)
             $('#id_query').val(query)
-            this.showLoading()
-            this.results.fetch({data:{
-                location: location,
-                query: query
-            }})
+            this.search()
             return false
         },
 
@@ -386,6 +430,42 @@ $(function(){
             event.preventDefault()
             this.results.firstPage()
             return false
+        },
+
+        setupAutocomplete: function(){
+
+            var qc = new QueryCollection();
+            var that = this;
+
+            $("#id_query").autocomplete({
+
+                minLength: 2,
+
+                source: function( request, response ) {
+
+                    var term = request.term;
+
+                    qc.on('reset', function(){
+                        var titles = []
+                        qc.each(function(r){
+                            titles.push(r.get('title'))
+                        })
+                        response(titles)
+                    })
+
+                    qc.fetch({data:{
+                        query: request.term,
+                        location: $('#id_location').val()
+                    }});
+
+                }
+
+            });
+
+            $('#id_query').bind('autocompleteselect', function(event, ui){
+                that.search_auto()
+            })
+
         },
 
         showResource: function(event){
@@ -420,11 +500,13 @@ $(function(){
     window.GAPP = GAPP = {
         models: {
             Resource: Resource,
-            SavedSearch: SavedSearch
+            SavedSearch: SavedSearch,
+            Query: Query
         },
         collections: {
             SavedSearchCollection: SavedSearchCollection,
-            ResourceCollection: ResourceCollection
+            ResourceCollection: ResourceCollection,
+            QueryCollection: QueryCollection
         },
         views: {
             SearchView: SearchView

@@ -8,15 +8,6 @@ $(function(){
 
     "use strict";
 
-    var wrap = function(func, pre, post){
-        return function(){
-            var callee = arguments.callee
-            pre()
-            func.apply(callee, arguments)
-            post()
-      }
-    }
-
     /*
      * Replace Backbone.sync with a sync function that uses JSONP and always
      * uses a GET request. Also add optional caching for models.
