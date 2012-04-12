@@ -308,8 +308,9 @@ $(function(){
 
         results: new ResourceCollection(),
 
-        initialize: function(){
+        initialize: function(searchView){
 
+            this.searchView = searchView
             this.map = google_map
         },
 
@@ -323,8 +324,7 @@ $(function(){
         },
 
         hide: function(){
-            this.$el.hide()
-            $('#search_results').show()
+            this.searchView.results.trigger("reset")
         },
 
         show: function(){
@@ -376,7 +376,7 @@ $(function(){
             this.results.on('reset', this.map.render, this.map)
             this.results.on('reset', this.render, this)
 
-            this.resourceView = new ResourceView()
+            this.resourceView = new ResourceView(this)
 
             this.setupAutocomplete()
             this.search_timer = null
@@ -478,7 +478,7 @@ $(function(){
 
         render: function(template){
 
-            this.resourceView.hide()
+            $('#resourceView').hide()
             if (!$.isFunction(template)){
                 template = this.template
             }

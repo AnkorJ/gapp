@@ -31,7 +31,7 @@ h1{
 }
 
 #app_search{
-  padding: 1em;
+  padding: -1px;
 }
 
 .saved_search{
