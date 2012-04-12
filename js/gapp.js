@@ -301,9 +301,11 @@ $(function(){
         el: $("#resourceView"),
 
         template: _.template($('#resource-template').html() || ""),
+        emailTemplate: _.template($('#resource-email').html() || ""),
 
         events: {
-            'click .back': 'hide'
+            'click .back': 'hide',
+            'click .email': 'email'
         },
 
         results: new ResourceCollection(),
@@ -315,6 +317,7 @@ $(function(){
         },
 
         showResource: function(resource){
+            this.resource = resource
             var jsonResource = resource.toJSON()
             this.$el.html(this.template(jsonResource))
             this.map.addResourceMarkers([jsonResource])
@@ -330,6 +333,13 @@ $(function(){
         show: function(){
             $('#search_results').hide()
             this.$el.show()
+        },
+
+        email: function(){
+            var title = this.resource.get('title'),
+                description = this.emailTemplate(this.resource.toJSON())
+            description = description.replace(/\n/g, '%0D%0A')
+            window.location = "mailto:?Subject=" + title + "&body=" + description
         }
 
     })

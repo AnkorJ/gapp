@@ -200,9 +200,24 @@
     <p><%= desc %></p>
     <hr/>
 
-    <a href="#">Edit resource</a> | <a href="#">Report Resource</a>
+    <a href="#">Edit resource</a> | <a href="#">Report Resource</a> | <a href="#" class="email">Email Resource</a>
 
   </script>
+
+  <script type="text/template" id="resource-email"><%= title %>
+
+----------
+
+<%= description %>
+
+----------
+
+<% _.each(locationnames, function(l){%>
+- <%= l %>
+<% }) %>
+
+<%= uri %>
+</script>
 
 </body>
 </html>
