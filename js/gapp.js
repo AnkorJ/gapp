@@ -96,7 +96,7 @@ $(function(){
             options = options || (options = {})
             var data = options.data
 
-            if (data && (data.query !== this.queryData.query || data.location !== this.queryData.location)){
+            if (data && (data.query !== this.currentQueryData.query || data.location !== this.currentQueryData.location)){
                 this.pageNumber = 0
             }
 
@@ -319,7 +319,7 @@ $(function(){
         showResource: function(resource){
             this.resource = resource
             var jsonResource = resource.toJSON()
-            this.$el.html(this.template(jsonResource))
+            $('#resourceView').html(this.template(jsonResource))
             this.map.addResourceMarkers([jsonResource])
             this.map.setZoom(14);
             this.show()
@@ -332,7 +332,7 @@ $(function(){
 
         show: function(){
             $('#search_results').hide()
-            this.$el.show()
+            $('#resourceView').show()
         },
 
         email: function(){
@@ -489,6 +489,7 @@ $(function(){
         render: function(template){
 
             $('#resourceView').hide()
+            $('#search_results').show()
             if (!$.isFunction(template)){
                 template = this.template
             }
