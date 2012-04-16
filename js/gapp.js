@@ -165,27 +165,27 @@ $(function(){
 
         fetch: function(){
             this.reset([{
-                query: "substance abuse",
-                location: "glasgow"
+                query: "Substance abuse",
+                location: "Glasgow"
             },{
-                query: "substance abuse",
+                query: "Substance abuse",
                 location: 'aberdeen'
             },{
-                query: "substance abuse"
+                query: "Substance abuse"
             },{
-                query: "mental health"
+                query: "Developmental disorder"
             },{
-                query: "cafe"
+                query: "Mental Health"
             },{
-                query: "multiple sclerosis"
+                query: "Multiple Sclerosis"
             },{
-                query: "substance abuse"
+                query: "Depression"
             },{
-                query: "cancer"
+                query: "Cancer"
             },{
-                query: "mental health"
+                query: "Parenting"
             },{
-                query: "multiple sclerosis"
+                query: "Autism"
             }])
         }
 
