@@ -18,7 +18,7 @@ $(function(){
     var BaseModel = Backbone.Model.extend({
 
         cache: true,
-        cache_time: 600,
+        cache_time: 120,
         queryData: {},
         currentQueryData: {},
 
@@ -35,7 +35,7 @@ $(function(){
     var BaseCollection = Backbone.Collection.extend({
 
         cache: true,
-        cache_time: 600,
+        cache_time: 120,
         queryData: {},
         currentQueryData: {},
 
@@ -212,6 +212,11 @@ $(function(){
 
         addMarker: function(position, content){
 
+            if(!this.mapInitialized){
+                this.$el.show()
+                this.initMap()
+            }
+
             var map = this.map
 
             var marker = new google.maps.Marker({
@@ -240,6 +245,11 @@ $(function(){
         },
 
         addResourceMarkers: function(resources){
+
+            if(!this.mapInitialized){
+                this.$el.show()
+                this.initMap()
+            }
 
             this.removeMarkers()
             this.markers = []
@@ -357,7 +367,6 @@ $(function(){
             'keypress #id_query': 'search_auto',
             'keypress #id_location': 'search_auto',
             'click #search': 'search_click',
-            'click .saved_search': 'saved_search',
             'click .next': 'nextPage',
             'click .previous': 'previousPage',
             'click .first': 'firstPage',
@@ -424,6 +433,13 @@ $(function(){
             return false
         },
 
+        search_for: function(query, location){
+            $('#id_location').val(location)
+            $('#id_query').val(query)
+            this.search()
+            return false
+        },
+
         nextPage: function(event){
             event.preventDefault()
             this.results.nextPage()
@@ -483,6 +499,7 @@ $(function(){
             var id = $(event.currentTarget).data('id')
             var resource = this.results.get(id)
             this.resourceView.showResource(resource)
+            this.router.navigate("!/resource/" + resource.id)
             return false
         },
 
@@ -506,7 +523,47 @@ $(function(){
 
     })
 
+    var app = new SearchView()
 
+    var WorkspaceRouter = Backbone.Router.extend({
+
+        routes: {
+            "!/search/:query": 'search',
+            "!/search/:query/:location": "search",
+            "!/search/:query/:location/page/:page": "search",
+            "!/resource/:id": "resource"
+        },
+
+        search: function(query, location, page) {
+            if (!location){
+                location = ''
+            }
+            app.search_for(decodeURIComponent(query), decodeURIComponent(location))
+            page = parseInt(page, 10) - 1
+            if(page){
+                app.results.goToPage(page)
+            }
+        },
+
+        resource: function(id){
+
+            r = new Resource({"id": id});
+
+            r.on("change", function(){
+
+                app.resourceView.showResource(r)
+
+            });
+
+            r.fetch()
+
+        }
+
+    });
+
+    app.router = new WorkspaceRouter()
+
+    Backbone.history.start()
 
     window.GAPP = GAPP = {
         models: {
@@ -524,6 +581,5 @@ $(function(){
         }
     }
 
-    var app = new SearchView()
 
 })

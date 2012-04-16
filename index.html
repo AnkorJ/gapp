@@ -139,7 +139,7 @@
 
     <% if (resources.length == 0){ %>
 
-      <p>Sorry, we couldn\t find anything. Try a more general search.</p>
+      <p>Sorry, we couldn't find anything. Try a more general search.</p>
 
     <% } else { %>
 
@@ -183,9 +183,31 @@
   </script>
 
   <script type="text/template" id="saved-search">
+
       <% _.each(savedSearch, function(saved) { %>
-          <a href="#" class="span-4 last big_link saved_search" data-query="<%= saved.query %>" data-location="<%= saved.location %>"><%= saved.query %> <% if (saved.location){ %>(<%= saved.location%>)<% } %></a>
+
+          <% if(saved.query && saved.location){ %>
+
+            <a href="#!/search/<%= saved.query %>/<%= saved.location%>" class="span-4 last big_link saved_search">
+              <%= saved.query %> (<%= saved.location%>)
+            </a>
+
+          <% } else if (saved.query){ %>
+
+            <a href="#!/search/<%= saved.query %>" class="span-4 last big_link saved_search">
+              <%= saved.query %>
+            </a>
+
+          <% } else if (saved.location){ %>
+
+            <a href="#!/search/ /<%= saved.location%>/" class="span-4 last big_link saved_search">
+              <%= saved.location %>
+            </a>
+
+          <% } %>
+
       <% }); %>
+
   </script>
 
 
@@ -200,7 +222,9 @@
     <p><%= desc %></p>
     <hr/>
 
-    <a href="#">Edit resource</a> | <a href="#">Report Resource</a> | <a href="#" class="email">Email Resource</a>
+    <a href="http://aliss.org/depot/resource/<%= id %>/edit/">Edit resource</a> |
+    <a href="http://aliss.org/depot/resource/<%= id %>/report/">Report Resource</a> |
+    <a href="#" class="email">Email Resource</a>
 
   </script>
 
