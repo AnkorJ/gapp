@@ -305,6 +305,7 @@ $(function(){
 
 
     $('#resourceView').hide()
+    $('#contact').hide()
 
     var ResourceView = Backbone.View.extend({
 
