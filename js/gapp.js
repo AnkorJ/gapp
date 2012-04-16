@@ -263,7 +263,7 @@ $(function(){
                     var latlng = location.split(', ')
                     var glatlng = new google.maps.LatLng(latlng[0], latlng[1])
                     markerbounds.extend(glatlng)
-                    that.addMarker(glatlng, resource.title)
+                    that.addMarker(glatlng, resource.title + "<br/>" + '<a href="#!/resource/' + resource.id + '">Details</a>')
                 })
             })
 
