@@ -342,6 +342,7 @@ $(function(){
 
         show: function(){
             $('#search_results').hide()
+            $('#search_map').show()
             $('#resourceView').show()
         },
 
@@ -506,7 +507,9 @@ $(function(){
         render: function(template){
 
             $('#resourceView').hide()
+            $('#contact').hide()
             $('#search_results').show()
+            $('#search_map').show()
             if (!$.isFunction(template)){
                 template = this.template
             }
@@ -531,7 +534,8 @@ $(function(){
             "!/search/:query": 'search',
             "!/search/:query/:location": "search",
             "!/search/:query/:location/page/:page": "search",
-            "!/resource/:id": "resource"
+            "!/resource/:id": "resource",
+            "!/contact": 'contact'
         },
 
         search: function(query, location, page) {
@@ -556,6 +560,12 @@ $(function(){
             });
 
             r.fetch()
+
+        },
+
+        contact: function(id){
+            $('div.pannel').hide()
+            $('#contact').show()
 
         }
 

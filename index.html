@@ -42,10 +42,11 @@
 
         <ul id="menu" class="first span-18">
           <li><a href=".">home</a></li>
-          <li><a href="http://aliss.org">aliss information &amp; login</a></li>
-          <li>contact us</li>
-          <li>terms &amp; conditions</li>
-          <li>help</li>
+          <li><a href="http://aliss.org/terms-and-conditions/">ALISS Terms &amp; conditions</a></li>
+          <li><a href="http://aliss.org/accounts/login/">ALISS login</a></li>
+          <li><a href="http://aliss.org/info/">User help - Using ALISS</a></li>
+          <li><a href="http://aliss.org/info/">ALISS community</a></li>
+          <li><a href="#!/contact">contact us</a></li>
         </ul>
 
         <span class="clearfix"></span>
@@ -99,16 +100,22 @@
           <a class="big_link span-3">Local</a>
         </div>
 
-        <div id="search_map" class="box span-18 last">
+        <div id="search_map" class="box span-18 last pannel">
         </div>
 
-        <div id="search_results" class="box span-18 last">
+        <div id="search_results" class="box span-18 last pannel">
 
           <h2>How to search</h2>
 
         </div>
 
-        <div id="resourceView" class="box span-18 last">
+        <div id="resourceView" class="box span-18 last pannel">
+
+        </div>
+
+        <div id="contact" class="box span-18 last">
+
+          <h2>Contact us</h2>
 
         </div>
 
@@ -139,7 +146,7 @@
 
     <% if (resources.length == 0){ %>
 
-      <p>Sorry, we couldn't find anything. Try a more general search.</p>
+      <p>Sorry, we couldn't find anything. Try a more general search.</p><!--'-->
 
     <% } else { %>
 
@@ -228,7 +235,9 @@
 
   </script>
 
-  <script type="text/template" id="resource-email"><%= title %>
+
+<!-- Whitespace is important in the below template -->
+<script type="text/template" id="resource-email"><%= title %>
 
 ----------
 
