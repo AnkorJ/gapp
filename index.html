@@ -73,6 +73,11 @@
         <div id="saved_searches">
         </div>
 
+        <!--
+          <label for="id_nhs" class="required span-7">NHS only</label>
+          <input type="checkbox" name="nhs" id="id_nhs" value="1" />
+        -->
+
       </div>
 
       <div id="app_search" class="borderedspan-19 last">
@@ -93,11 +98,19 @@
 
         <span class="clearfix"></span>
 
-        <div id="search_filters" class="span-18 last">
-          <span class="span-3 prepend-2 append-1">Filter results:</span>
-          <a class="big_link span-3">All</a>
-          <a class="big_link span-3">Practice</a>
-          <a class="big_link span-3">Local</a>
+        <div id="search_filters" class="big_link push-4 span-10 last">
+
+          <span>Filter results:</span>
+
+          <input type="radio" name="filter" id="filter_all" value="All" />
+          <label class="append-1" for="filter_all">All</label>
+
+          <input type="radio" name="filter" id="filter_practice" value="Practice" />
+          <label class="append-1" for="filter_practice">Practice</label>
+
+          <input type="radio" name="filter" id="filter_local" value="Local" />
+          <label class="append-1" for="filter_local">Local</label>
+
         </div>
 
         <div id="search_map" class="box span-18 last pannel">
@@ -163,14 +176,16 @@
         <a href="#" class="next">Next</a>
       </p>
 
-      <% var counter = start; _.each(resources, function(resource) { %>
-          <% counter++; %>
-          <% var desc = resource.description; %>
-          <h3><%= counter %>. <%= resource.title %></h3>
-          <span class="truncate"><%= desc %>&hellip;</span>
-          <p><a href="#" class="detail" data-id="<%= resource.id %>">View details</a></p>
-          <hr/>
-      <% }); %>
+      <form method="post" action=".">
+        <% var counter = start; _.each(resources, function(resource) { %>
+            <% counter++; %>
+            <% var desc = resource.description; %>
+            <h3><input type="checkbox" class="result-select" name="resources[]" value="<%= resource.id %>" /> <%= counter %>. <%= resource.title %></h3>
+            <span class="truncate"><%= desc %>&hellip;</span>
+            <p><a href="#" class="detail" data-id="<%= resource.id %>">View details</a></p>
+            <hr/>
+        <% }); %>
+      </form>
 
       <p>
         <% if (start > 1) { %>

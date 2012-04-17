@@ -25,6 +25,7 @@ $(function(){
         fetch: function(options){
             options = options || (options = {})
             var data = options.data || (options.data = {})
+            if (!data.nhs && $('#id_nhs').is(':checked')) data.nhs = 1
             options.data = $.extend({}, this.queryData, data)
             this.currentQueryData = options.data
             Backbone.Model.prototype.fetch.call(this, options)
@@ -42,6 +43,7 @@ $(function(){
         fetch: function(options){
             options = options || (options = {})
             var data = options.data || (options.data = {})
+            if (!data.nhs && $('#id_nhs').is(':checked')) data.nhs = 1
             options.data = _.extend({}, this.queryData, data)
             this.currentQueryData = options.data
             Backbone.Collection.prototype.fetch.call(this, options)
@@ -96,7 +98,11 @@ $(function(){
             options = options || (options = {})
             var data = options.data
 
-            if (data && (data.query !== this.currentQueryData.query || data.location !== this.currentQueryData.location)){
+            var nhs = $('#id_nhs').is(":checked") ? 1 : undefined
+
+            if (data && (data.query !== this.currentQueryData.query ||
+                        data.location !== this.currentQueryData.location ||
+                        this.currentQueryData.nhs !== nhs)){
                 this.pageNumber = 0
             }
 
