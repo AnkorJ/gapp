@@ -21,7 +21,7 @@ $(function(){
     var BaseModel = Backbone.Model.extend({
 
         cache: true,
-        cache_time: 120,
+        cache_time: 600,
         queryData: {},
         currentQueryData: {},
 
@@ -39,7 +39,7 @@ $(function(){
     var BaseCollection = Backbone.Collection.extend({
 
         cache: true,
-        cache_time: 120,
+        cache_time: 600,
         queryData: {},
         currentQueryData: {},
 
@@ -419,6 +419,13 @@ $(function(){
 
         search: function(){
             this.showLoading()
+            var query = $('#id_query').val(), location = $('#id_location').val()
+
+            if(location){
+                this.router.navigate("!/search/" + query + "/" + location)
+            } else {
+                this.router.navigate("!/search/" + query)
+            }
             this.results.fetch({data:$('#search_form').serializeHash()})
         },
 
