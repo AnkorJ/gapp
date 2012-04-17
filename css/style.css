@@ -30,9 +30,9 @@ h1{
   text-decoration: none;
 }
 
-#saved_searches .big_link{
-  padding-left: 1em;
-  padding-right: 1em;
+#app_left .big_link{
+  padding-left: 1.5em;
+  padding-right: 1.5em;
 }
 
 #app_search{
