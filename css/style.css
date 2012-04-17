@@ -88,3 +88,8 @@ h1{
 .select_all{
   text-align: left;
 }
+
+hr {
+  background:#ccc;
+  color:#ccc;
+}

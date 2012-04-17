@@ -2,6 +2,7 @@
 
 $(function(){
 
+    "use strict";
 
     locache.cleanup();
 
@@ -325,7 +326,8 @@ $(function(){
 
         events: {
             'click .back': 'hide',
-            'click .email': 'email'
+            'click .email': 'email',
+            'click .print': 'print'
         },
 
         results: new ResourceCollection(),
@@ -337,13 +339,15 @@ $(function(){
         },
 
         showResource: function(resource){
-            this.resource = resource
             var jsonResource = resource.toJSON()
-            $('#resourceView').html(this.template(jsonResource))
-            this.map.addResourceMarkers([jsonResource])
-            this.map.setZoom(14);
-            this.show()
-            this.delegateEvents()
+            this.resources = [jsonResource]
+            this.render([jsonResource], [jsonResource])
+        },
+
+        showResources: function(resources){
+            this.resources = resources
+            var jsonResources = resources
+            this.render(jsonResources, jsonResources)
         },
 
         hide: function(){
@@ -357,10 +361,27 @@ $(function(){
         },
 
         email: function(){
-            var title = this.resource.get('title'),
-                description = this.emailTemplate(this.resource.toJSON())
+            var title = '', description = ''
+            $.each(this.resources, function(r){
+                title += r.title
+                description += this.emailTemplate(r)
+            })
             description = description.replace(/\n/g, '%0D%0A')
             window.location = "mailto:?Subject=" + title + "&body=" + description
+        },
+
+        print: function(){
+            window.print()
+        },
+
+        render: function(resources, markers){
+            $('#resourceView').html(this.template({
+                resources:resources
+            }))
+            this.map.addResourceMarkers(markers)
+            this.map.setZoom(14);
+            this.show()
+            this.delegateEvents()
         }
 
     })
@@ -584,15 +605,42 @@ $(function(){
 
         resource: function(id){
 
-            r = new Resource({"id": id});
+            var ids = id.split('-')
 
-            r.on("change", function(){
+            if (ids.length == 1){
 
-                app.resourceView.showResource(r)
+                resource = new Resource({
+                    id: id
+                })
+                resource.on("change", function(){
+                    app.resourceView.showResource(resource)
+                })
+                resource.fetch()
 
-            });
+            } else if (ids.length > 1){
 
-            r.fetch()
+                resources = []
+
+                _.each(ids, function(i){
+                    resource = new Resource({
+                        id: i
+                    })
+                    resource.on("change", function(){
+                        resources.push(resource.toJSON())
+                    })
+                    resource.fetch()
+                })
+                var fn = function(){
+                    if (resources.length == ids.length){
+                        app.resourceView.showResources(resources)
+                    } else {
+                        setTimeout(fn, 100)
+                    }
+                }
+                fn()
+
+
+            }
 
         },
 

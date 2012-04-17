@@ -255,18 +255,42 @@
 
   <script type="text/template" id="resource-template">
 
-    <a href="#" class="back">Back to results</a>
+    <p class="pagination span-18 last">
+      <a href="#" class="back">Back to results</a>
+    </p>
 
-    <hr/>
+    <% if (resources.length > 1){ %>
 
-    <% var desc = description; %>
-    <h3><%= title %></h3>
-    <p><%= desc %></p>
-    <hr/>
+      <% _.each(resources, function(resource) { %>
 
-    <a href="http://aliss.org/depot/resource/<%= id %>/edit/">Edit resource</a> |
-    <a href="http://aliss.org/depot/resource/<%= id %>/report/">Report Resource</a> |
-    <a href="#" class="email">Email Resource</a>
+        <h3><%= resource.title %></h3>
+        <p><%= resource.description %></p>
+        <a href="http://aliss.org/depot/resource/<%= resource.id %>/edit/">Edit resource</a> |
+        <a href="http://aliss.org/depot/resource/<%= resource.id %>/report/">Report Resource</a>
+        <br/><br/>
+        <hr/>
+
+      <% }); %>
+
+      <p class="pagination span-18 last">
+        <a href="#" class="email">Email Resources</a> |
+        <a href="#" class="print">Print Resources</a>
+      </p>
+
+    <% } else if(resources.length === 1) { %>
+
+      <% var resource = resources[0]; %>
+      <h3><%= resource.title %></h3>
+      <p><%= resource.description %></p>
+      <hr/>
+      <a href="http://aliss.org/depot/resource/<%= resource.id %>/edit/">Edit resource</a> |
+      <a href="http://aliss.org/depot/resource/<%= resource.id %>/report/">Report Resource</a> |
+      <a href="#" class="email">Email Resource</a> |
+      <a href="#" class="print">Print Resource</a>
+
+    <% } else { %>
+      None?
+    <% } %>
 
   </script>
 
