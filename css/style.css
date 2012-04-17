@@ -19,15 +19,20 @@ h1{
 }
 
 .bordered {
-  border: 1px solid #999;
+  border: 1px solid #999999;
 }
 
 .big_link{
   padding: 1em 0 1em 0;
-  border: 1px solid #000;
+  border: 1px solid #999999;
   margin-bottom: 0.5em;
   text-align: center;
   text-decoration: none;
+}
+
+#saved_searches .big_link{
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 #app_search{
@@ -35,7 +40,7 @@ h1{
 }
 
 .saved_search{
-  border: 1px solid #0000ff;
+  border: 1px solid #999999;
 }
 
 #app_left h3{
