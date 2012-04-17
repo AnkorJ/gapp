@@ -381,7 +381,9 @@ $(function(){
             'click .next': 'nextPage',
             'click .previous': 'previousPage',
             'click .first': 'firstPage',
-            'click .detail': 'showResource'
+            'click .detail': 'showResource',
+            'click input.select_all': 'selectAll',
+            'click input.result_individual': 'resultSelect'
         },
 
         results: new ResourceCollection(),
@@ -519,6 +521,20 @@ $(function(){
             this.resourceView.showResource(resource)
             this.router.navigate("!/resource/" + resource.id)
             return false
+        },
+
+        selectAll: function(e){
+            var checked = $(e.currentTarget).is(":checked");
+            $('input.result-select').attr('checked', checked);
+        },
+
+        resultSelect: function(e){
+
+            var checked = $(e.currentTarget).is(":checked");
+            if(!checked){
+                $('input.select_all').attr('checked', checked);
+            }
+
         },
 
         render: function(template){

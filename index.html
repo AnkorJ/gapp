@@ -191,7 +191,7 @@
         <% var counter = start; _.each(resources, function(resource) { %>
             <% counter++; %>
             <% var desc = resource.description; %>
-            <h3><input type="checkbox" class="result-select" name="resources[]" value="<%= resource.id %>" /> <%= counter %>. <%= resource.title %></h3>
+            <h3><input type="checkbox" class="result_individual result-select" name="resources[]" value="<%= resource.id %>" /> <%= counter %>. <%= resource.title %></h3>
             <span class="truncate"><%= desc %>&hellip;</span>
             <p><a href="#" class="detail" data-id="<%= resource.id %>">View details</a></p>
             <hr/>
