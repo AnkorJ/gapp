@@ -2,6 +2,9 @@
 
 $(function(){
 
+
+    locache.cleanup();
+
     function throttle(fn, delay) {
         var timer = null;
         return function () {

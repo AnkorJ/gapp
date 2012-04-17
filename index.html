@@ -41,7 +41,7 @@
       <div class="span-18">
 
         <ul id="menu" class="first span-18">
-          <li><a href=".">home</a></li>
+          <li><a href=".">Home</a></li>
           <li><a href="http://aliss.org/terms-and-conditions/">ALISS Terms &amp; conditions</a></li>
           <li><a href="http://aliss.org/accounts/login/">ALISS login</a></li>
           <li><a href="http://aliss.org/info/">User help - Using ALISS</a></li>
@@ -163,18 +163,29 @@
 
     <% } else { %>
 
-      <p>
-        <% if (start > 1) { %>
-        <a href="#" class="first">First</a>
-        <% } %>
+      <p class="pagination span-18 last">
 
-        <% if (start > 0) { %>
-        <a href="#" class="previous">Previous</a>
-        <% } %>
+        <span class="span-3 select_all">
+          <input type="checkbox" class="result-select" name="resources-all" id="select_all" value="1" />
+          <label for="select_all">Select All</label>
+        </span>
+        <span class="span-8 prepend-1 last">
+          <% if (start > 1) { %>
+          <a href="#" class="first">First</a>
+          <% } %>
 
-        Page <%= pageNumber %>
-        <a href="#" class="next">Next</a>
+          <% if (start > 0) { %>
+          <a href="#" class="previous">Previous</a>
+          <% } %>
+
+          Page <%= pageNumber %>
+          <a href="#" class="next">Next</a>
+
+        </span>
+
       </p>
+
+      <span class="clearfix"></span>
 
       <form method="post" action=".">
         <% var counter = start; _.each(resources, function(resource) { %>
@@ -187,17 +198,26 @@
         <% }); %>
       </form>
 
-      <p>
-        <% if (start > 1) { %>
-        <a href="#" class="first">First</a>
-        <% } %>
+      <p class="pagination span-18 last">
 
-        <% if (start > 0) { %>
-        <a href="#" class="previous">Previous</a>
-        <% } %>
+        <span class="span-3 select_all">
+          <input type="checkbox" class="result-select" name="resources-all" id="select_all" value="1" />
+          <label for="select_all">Select All</label>
+        </span>
+        <span class="span-8 prepend-1 last">
+          <% if (start > 1) { %>
+          <a href="#" class="first">First</a>
+          <% } %>
 
-        Page <%= pageNumber %>
-        <a href="#" class="next">Next</a>
+          <% if (start > 0) { %>
+          <a href="#" class="previous">Previous</a>
+          <% } %>
+
+          Page <%= pageNumber %>
+          <a href="#" class="next">Next</a>
+
+        </span>
+
       </p>
 
     <% } %>

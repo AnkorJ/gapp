@@ -23,7 +23,7 @@ h1{
 }
 
 .big_link{
-  padding: 1em;
+  padding: 1em 0 1em 0;
   border: 1px solid #000;
   margin-bottom: 0.5em;
   text-align: center;
@@ -68,4 +68,18 @@ h1{
 
 .read-more, .read-less{
   display: none;
+}
+
+.pagination{
+  padding: 1em 1.5em 1em 1.5em;
+  margin: 0 -1.5em 1.5em -1.5em;
+  text-align: center;
+  text-decoration: none;
+  border-top: 1px solid #999999;
+  border-bottom: 1px solid #999999;
+}
+
+
+.select_all{
+  text-align: left;
 }
