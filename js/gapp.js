@@ -377,7 +377,6 @@ $(function(){
             }
             var template = this.emailTemplate
             $.each(resources, function(i, r){
-                console.log(r)
                 description += template(r)
             })
             description = description.replace(/\n/g, '%0D%0A')
