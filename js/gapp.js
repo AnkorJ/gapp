@@ -326,7 +326,7 @@ $(function(){
 
         events: {
             'click .back': 'hide',
-            'click .email': 'email',
+            'click .email': 'emailEvent',
             'click .print': 'print'
         },
 
@@ -361,14 +361,24 @@ $(function(){
             $('#resourceView').show()
         },
 
+        emailEvent: function(e){
+            e.preventDefault()
+            this.email()
+            return false;
+        },
+
         email: function(resources){
             var title = '', description = ''
             if (!resources){
                 resources = this.resources
             }
-            $.each(resources, function(r){
-                title += r.title
-                description += this.emailTemplate(r)
+            if (resources.length > 1){
+                title = resources.length + " ALISS Resources"
+            }
+            var template = this.emailTemplate
+            $.each(resources, function(i, r){
+                console.log(r)
+                description += template(r)
             })
             description = description.replace(/\n/g, '%0D%0A')
             window.location = "mailto:?Subject=" + title + "&body=" + description
@@ -593,10 +603,11 @@ $(function(){
             })
             this.router.navigate("!/resource/" + ids.join("-"), {trigger:true})
             this.resourceView.print()
-
+            return false
         },
 
-        email: function(){
+        email: function(e){
+            e.preventDefault()
             var selected = $(".result_individual:checked");
 
             var resources = new ResourceCollection()
@@ -617,6 +628,7 @@ $(function(){
                 })
                 resource.fetch()
             })
+            return false
 
         }
 

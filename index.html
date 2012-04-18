@@ -304,19 +304,19 @@
 
 
 <!-- Whitespace is important in the below template -->
-<script type="text/template" id="resource-email"><%= title %>
+<script type="text/template" id="resource-email">Title: <%= title %>
 
-----------
-
+Description;
 <%= description %>
 
-----------
-
+Locations;
 <% _.each(locationnames, function(l){%>
 - <%= l %>
 <% }) %>
+Website: <%= uri %>
 
-<%= uri %>
+----------
+
 </script>
 
 </body>
