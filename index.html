@@ -84,15 +84,17 @@
 
         <form method="get" action="." id="search_form" class="span-18 last">
 
-          <label for="id_location" class="required span-7">Location:</label>
+          <label for="id_location" class="required span-4">Location:</label>
           <input id="id_location" type="text" name="location" class="span-10 last" />
 
           <span class="span-18 last clearfix"></span>
 
-          <label for="id_query" class="required span-7">Text:</label>
+          <label for="id_query" class="required span-4">Text:</label>
           <input id="id_query" type="text" name="query" class="span-10 last"/>
 
-          <input id="search" type="submit" value="Search now" class="span-5 prepend-7" />
+          <span class="clearfix"></span>
+
+          <input id="search" type="submit" value="Search now" class="span-5 push-4" />
 
         </form>
 
@@ -182,6 +184,10 @@
           <a href="#" class="next">Next</a>
 
         </span>
+        <span class="span-6 select-action last">
+          <a href="#" class="print_selected">Print Selected</a>
+          <a href="#" class="email_selected">Email Selected</a>
+        </span>
 
       </p>
 
@@ -194,7 +200,9 @@
             <h3><input type="checkbox" class="result_individual result-select" name="resources[]" value="<%= resource.id %>" /> <%= counter %>. <%= resource.title %></h3>
             <span class="truncate"><%= desc %>&hellip;</span>
             <p><a href="#" class="detail" data-id="<%= resource.id %>">View details</a></p>
-            <hr/>
+            <% if(counter % 10 !== 0 ){ %>
+              <hr/>
+            <% } %>
         <% }); %>
       </form>
 

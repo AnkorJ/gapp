@@ -345,8 +345,9 @@ $(function(){
         },
 
         showResources: function(resources){
-            this.resources = resources
-            var jsonResources = resources
+            this.resources = resources.toJSON()
+            var jsonResources = this.resources
+            var that = this
             this.render(jsonResources, jsonResources)
         },
 
@@ -360,9 +361,12 @@ $(function(){
             $('#resourceView').show()
         },
 
-        email: function(){
+        email: function(resources){
             var title = '', description = ''
-            $.each(this.resources, function(r){
+            if (!resources){
+                resources = this.resources
+            }
+            $.each(resources, function(r){
                 title += r.title
                 description += this.emailTemplate(r)
             })
@@ -404,7 +408,9 @@ $(function(){
             'click .first': 'firstPage',
             'click .detail': 'showResource',
             'click input.select_all': 'selectAll',
-            'click input.result_individual': 'resultSelect'
+            'click input.result_individual': 'resultSelect',
+            'click .print_selected': 'print',
+            'click .email_selected': 'email',
         },
 
         results: new ResourceCollection(),
@@ -576,6 +582,42 @@ $(function(){
 
             this.delegateEvents()
             return this
+        },
+
+        print: function(e){
+            e.preventDefault();
+            var selected = $(".result_individual:checked");
+            var ids = [];
+            $.each(selected, function(i, el){
+                ids.push($(el).val())
+            })
+            this.router.navigate("!/resource/" + ids.join("-"), {trigger:true})
+            this.resourceView.print()
+
+        },
+
+        email: function(){
+            var selected = $(".result_individual:checked");
+
+            var resources = new ResourceCollection()
+
+            resources.on("add", function(){
+                if (resources.length == selected.length){
+                    app.resourceView.email(resources.toJSON())
+                }
+            })
+
+            $.each(selected, function(i, el){
+                var resource = new Resource({
+                    id: $(el).val()
+                })
+                resource.on("change", function(){
+                    resources.push(resource)
+                    resource.fetch()
+                })
+                resource.fetch()
+            })
+
         }
 
     })
@@ -609,7 +651,7 @@ $(function(){
 
             if (ids.length == 1){
 
-                resource = new Resource({
+                var resource = new Resource({
                     id: id
                 })
                 resource.on("change", function(){
@@ -619,25 +661,24 @@ $(function(){
 
             } else if (ids.length > 1){
 
-                resources = []
+                var resources = new ResourceCollection()
+
+                resources.on("add", function(){
+                    if (resources.length == ids.length){
+                        app.resourceView.showResources(resources)
+                    }
+                })
 
                 _.each(ids, function(i){
-                    resource = new Resource({
+                    var resource = new Resource({
                         id: i
                     })
                     resource.on("change", function(){
-                        resources.push(resource.toJSON())
+                        resources.push(resource)
+                        resource.fetch()
                     })
                     resource.fetch()
                 })
-                var fn = function(){
-                    if (resources.length == ids.length){
-                        app.resourceView.showResources(resources)
-                    } else {
-                        setTimeout(fn, 100)
-                    }
-                }
-                fn()
 
 
             }
