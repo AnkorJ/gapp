@@ -167,36 +167,41 @@ $(function(){
 
     var SavedSearch = BaseModel.extend({
 
+
+
     })
 
     var SavedSearchCollection = BaseCollection.extend({
 
+        url: 'http://www.aliss.org/api/savedsearches/',
+
         model: SavedSearch,
 
-        fetch: function(){
-            this.reset([{
-                query: "Substance abuse",
-                location: "Glasgow"
-            },{
-                query: "Substance abuse",
-                location: 'aberdeen'
-            },{
-                query: "Substance abuse"
-            },{
-                query: "Developmental disorder"
-            },{
-                query: "Mental Health"
-            },{
-                query: "Multiple Sclerosis"
-            },{
-                query: "Depression"
-            },{
-                query: "Cancer"
-            },{
-                query: "Parenting"
-            },{
-                query: "Autism"
-            }])
+        parse: function(result){
+            var terms = result.data
+
+            var saved = []
+
+            _.each(terms, function(term){
+                var location = '', query = ''
+                //term.split(',').pop()
+                if(term.indexOf(',') > 0){
+                    location = term.split(',').pop()
+                }
+                var trim = location.length > 0 ? location.length + 1: 0
+                query = $.trim(term.substring(0, term.length - trim ))
+                location = $.trim(location)
+
+                saved.push({
+                    location: location,
+                    query: query
+                })
+
+            })
+
+            return saved
+
+
         }
 
     })

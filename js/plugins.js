@@ -30,7 +30,7 @@ $(function(){
 
         // Ensure that we have a URL.
         if (!options.url) {
-            params.url = getValue(model, 'url') || urlError()
+            params.url = getValue(model, 'url')
         }
 
         var cache_key = params.url + $.param(options.data)
