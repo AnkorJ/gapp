@@ -173,7 +173,7 @@ $(function(){
 
     var SavedSearchCollection = BaseCollection.extend({
 
-        url: 'http://www.aliss.org/api/savedsearches/',
+        url: 'http://www.aliss.org/api/savedsearchesbyIP/',
 
         model: SavedSearch,
 
