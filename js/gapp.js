@@ -30,6 +30,7 @@ $(function(){
             options = options || (options = {})
             var data = options.data || (options.data = {})
             if (!data.nhs && $('#id_nhs').is(':checked')) data.nhs = 1
+            if (!data.future_events && $('#id_future_events').is(':checked')) data.event = '*'
             options.data = $.extend({}, this.queryData, data)
             this.currentQueryData = options.data
             Backbone.Model.prototype.fetch.call(this, options)
@@ -48,6 +49,7 @@ $(function(){
             options = options || (options = {})
             var data = options.data || (options.data = {})
             if (!data.nhs && $('#id_nhs').is(':checked')) data.nhs = 1
+            if (!data.future_events && $('#id_future_events').is(':checked')) data.event = '*'
             options.data = _.extend({}, this.queryData, data)
             this.currentQueryData = options.data
             Backbone.Collection.prototype.fetch.call(this, options)
@@ -103,10 +105,12 @@ $(function(){
             var data = options.data
 
             var nhs = $('#id_nhs').is(":checked") ? 1 : undefined
+            var future_events = $('#id_future_events').is(":checked") ? 1 : undefined
 
             if (data && (data.query !== this.currentQueryData.query ||
                         data.location !== this.currentQueryData.location ||
-                        this.currentQueryData.nhs !== nhs)){
+                        this.currentQueryData.nhs !== nhs ||
+                        this.currentQueryData.event !== future_events)){
                 this.pageNumber = 0
             }
 

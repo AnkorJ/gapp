@@ -82,7 +82,7 @@
 
       <div id="app_search" class="borderedspan-19 last">
 
-        <form method="get" action="." id="search_form" class="span-18 last">
+        <form method="get" action="." id="search_form" class="span-19 last">
 
           <label for="id_location" class="required span-4">Location:</label>
           <input id="id_location" type="text" name="location" class="span-10 last" />
@@ -98,9 +98,8 @@
 
         </form>
 
-        <span class="clearfix"></span>
 
-        <div id="search_filters" class="big_link push-4 span-10 last">
+        <div id="search_filters" class="big_link prepend-2 span-10">
 
           <span>Filter results:</span>
 
@@ -112,6 +111,13 @@
 
           <input type="radio" name="filter" id="filter_local" value="Local" />
           <label class="append-1" for="filter_local">Local</label>
+
+        </div>
+
+        <div id="event_filters" class="big_link span-5 last">
+
+          <input type="checkbox" name="filter" id="id_future_events" value="All" />
+          <label class="append-1" for="filter_all">Future Events only</label>
 
         </div>
 
