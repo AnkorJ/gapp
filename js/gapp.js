@@ -177,6 +177,32 @@ $(function(){
 
         model: SavedSearch,
 
+        fetch: function(){
+            this.reset([{
+                query: "Substance abuse",
+                location: "Glasgow"
+            },{
+                query: "Substance abuse",
+                location: 'aberdeen'
+            },{
+                query: "Substance abuse"
+            },{
+                query: "Developmental disorder"
+            },{
+                query: "Mental Health"
+            },{
+                query: "Multiple Sclerosis"
+            },{
+                query: "Depression"
+            },{
+                query: "Cancer"
+            },{
+                query: "Parenting"
+            },{
+                query: "Autism"
+            }])
+        },
+
         parse: function(result){
             var terms = result.data
 
