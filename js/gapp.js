@@ -182,24 +182,11 @@ $(function(){
                 query: "Substance abuse",
                 location: "Glasgow"
             },{
-                query: "Substance abuse",
-                location: 'aberdeen'
-            },{
-                query: "Substance abuse"
-            },{
-                query: "Developmental disorder"
-            },{
                 query: "Mental Health"
-            },{
-                query: "Multiple Sclerosis"
-            },{
-                query: "Depression"
             },{
                 query: "Cancer"
             },{
-                query: "Parenting"
-            },{
-                query: "Autism"
+                query: "Multiple Sclerosis"
             }])
         },
 
