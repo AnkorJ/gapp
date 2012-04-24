@@ -453,9 +453,9 @@ $(function(){
 
             var tmpl = this.templateSavedSearches
             savedSearches.on('reset', function(){
-                $('#saved_searches').html(tmpl({
-                    savedSearch: savedSearches.toJSON()
-                }))
+                //$('#saved_searches').html(tmpl({
+                //  savedSearch: savedSearches.toJSON()
+                //}))
             })
 
             savedSearches.fetch()
