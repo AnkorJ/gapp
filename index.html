@@ -20,8 +20,9 @@
   <link rel="stylesheet" media="print" type="text/css" href="css/print.css" />
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/base/jquery-ui.css" />
 
-  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script src="js/libs/modernizr-2.5.3.min.js"></script>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script src="js/libs/json2.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
   <script src="js/libs/jquery.expander.js"></script>
@@ -80,63 +81,67 @@
 
       </div>
 
-      <div id="app_search" class="borderedspan-19 last">
+      <div id="app_search" class="borderedspan-18 last">
 
-        <form method="get" action="." id="search_form" class="span-19 last">
+        <div class="span-18 last">
 
-          <label for="id_location" class="required span-4">Location:</label>
-          <input id="id_location" type="text" name="location" class="span-10 last" />
+          <form method="get" action="." id="search_form" class="span-19 last">
 
-          <span class="span-18 last clearfix"></span>
+            <label for="id_location" class="required span-4">Location:</label>
+            <input id="id_location" type="text" name="location" class="span-10 last" />
 
-          <label for="id_query" class="required span-4">Text:</label>
-          <input id="id_query" type="text" name="query" class="span-10 last"/>
+            <span class="span-18 last clearfix"></span>
 
-          <span class="clearfix"></span>
+            <label for="id_query" class="required span-4">Text:</label>
+            <input id="id_query" type="text" name="query" class="span-10 last"/>
 
-          <input id="search" type="submit" value="Search now" class="span-5 push-4" />
+            <span class="clearfix"></span><br/>
 
-        </form>
+            <input id="search" type="submit" value="Search now" class="span-5" />
+
+          </form>
 
 
-        <div id="search_filters" class="big_link prepend-2 span-10">
+          <div id="search_filters" class="big_link prepend-2 span-10">
 
-          <span>Filter results:</span>
+            <span>Filter results:</span>
 
-          <input type="radio" name="filter" id="filter_all" value="All" />
-          <label class="append-1" for="filter_all">All</label>
+            <input type="radio" name="filter" id="filter_all" value="All" />
+            <label class="append-1" for="filter_all">All</label>
 
-          <input type="radio" name="filter" id="filter_practice" value="Practice" />
-          <label class="append-1" for="filter_practice">Practice</label>
+            <input type="radio" name="filter" id="filter_practice" value="Practice" />
+            <label class="append-1" for="filter_practice">Practice</label>
 
-          <input type="radio" name="filter" id="filter_local" value="Local" />
-          <label class="append-1" for="filter_local">Local</label>
+            <input type="radio" name="filter" id="filter_local" value="Local" />
+            <label class="append-1" for="filter_local">Local</label>
 
-        </div>
+          </div>
 
-        <div id="event_filters" class="big_link span-5 last">
+          <div id="event_filters" class="big_link span-5 last">
 
-          <input type="checkbox" name="filter" id="id_future_events" value="All" />
-          <label class="append-1" for="filter_all">Future Events only</label>
+            <input type="checkbox" name="filter" id="id_future_events" value="All" />
+            <label class="append-1" for="filter_all">Future Events only</label>
 
-        </div>
+          </div>
 
-        <div id="search_map" class="box span-18 last pannel">
-        </div>
+          <div id="search_map" class="box span-18 last pannel">
+          </div>
 
-        <div id="search_results" class="box span-18 last pannel">
+          <div id="search_results" class="box span-18 last pannel">
 
-          <h2>How to search</h2>
+            <h2>How to search</h2>
 
-        </div>
+          </div>
 
-        <div id="resourceView" class="box span-18 last pannel">
+          <div id="resourceView" class="box span-18 last pannel">
 
-        </div>
+          </div>
 
-        <div id="contact" class="box span-18 last">
+          <div id="contact" class="box span-18 last">
 
-          <h2>Contact us</h2>
+            <h2>Contact us</h2>
+
+          </div>
 
         </div>
 
@@ -167,7 +172,7 @@
 
     <% if (resources.length == 0){ %>
 
-      <p>Sorry, we couldn't find anything. Try a more general search.</p><!--'-->
+      <p>Sorry, we couldn&rsquo;t find anything. Try a more general search.</p>
 
     <% } else { %>
 
@@ -245,19 +250,13 @@
           <% if(saved.query && saved.location){ %>
 
             <a href="#!/search/<%= saved.query %>/<%= saved.location%>" class="span-4 last big_link saved_search">
-              <%= saved.query %> (<%= saved.location%>)
+              <%= saved.query %> (<%= saved.location %>)
             </a>
 
           <% } else if (saved.query){ %>
 
             <a href="#!/search/<%= saved.query %>" class="span-4 last big_link saved_search">
               <%= saved.query %>
-            </a>
-
-          <% } else if (saved.location){ %>
-
-            <a href="#!/search/ /<%= saved.location%>/" class="span-4 last big_link saved_search">
-              <%= saved.location %>
             </a>
 
           <% } %>

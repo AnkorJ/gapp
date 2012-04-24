@@ -441,7 +441,7 @@ $(function(){
             'click input.select_all': 'selectAll',
             'click input.result_individual': 'resultSelect',
             'click .print_selected': 'print',
-            'click .email_selected': 'email',
+            'click .email_selected': 'email'
         },
 
         results: new ResourceCollection(),
