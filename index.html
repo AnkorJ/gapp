@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>NHS Social Prescribing for people living with Long Term Conditions</title>
+  <title>ALISS Glasgow</title>
   <meta name="description" content="">
 
   <meta name="viewport" content="width=device-width">
@@ -51,7 +51,7 @@
         </ul>
 
         <span class="clearfix"></span>
-        <h1>NHS Social Prescribing for <br/>people living with Long Term Conditions</h1>
+        <h1>ALISS Glasgow</h1>
 
       </div>
 
@@ -67,29 +67,11 @@
 
       <div id="app_left" class="span-5">
 
+
+        <a href="#" id="font_increase">Increase Font Size</a><br/>
+        <a href="#" id="font_decrease">Decrease Font Size</a>
+        <br/><br/>
         <a href="." class="span-4 last big_link">Start again</a>
-
-        <h3 class="span-5 last">Saved searches</h3>
-
-        <div id="saved_searches">
-
-            <a href="#!/search/Substance%20abuse/Glasgow" class="span-4 last big_link saved_search">
-              Substance abuse (Glasgow)
-            </a>
-
-            <a href="#!/search/Mental%20Health" class="span-4 last big_link saved_search">
-              Mental Health
-            </a>
-
-            <a href="#!/search/Cancer" class="span-4 last big_link saved_search">
-              Cancer
-            </a>
-
-            <a href="#!/search/Multiple%20Sclerosis" class="span-4 last big_link saved_search">
-              Multiple Sclerosis
-            </a>
-
-        </div>
 
         <!--
           <label for="id_nhs" class="required span-7">NHS only</label>
@@ -109,37 +91,23 @@
 
             <span class="span-18 last clearfix"></span>
 
-            <label for="id_query" class="required span-4">Text:</label>
+            <label for="id_query" class="required span-4">Keyword:</label>
             <input id="id_query" type="text" name="query" class="span-10 last"/>
 
             <span class="clearfix"></span><br/>
 
-            <input id="search" type="submit" value="Search now" class="span-5" />
-
-          </form>
-
-
-          <div id="search_filters" class="big_link prepend-2 span-10">
-
-            <span>Filter results:</span>
-
-            <input type="radio" name="filter" id="filter_all" value="All" />
-            <label class="append-1" for="filter_all">All</label>
-
-            <input type="radio" name="filter" id="filter_practice" value="Practice" />
-            <label class="append-1" for="filter_practice">Practice</label>
-
-            <input type="radio" name="filter" id="filter_local" value="Local" />
-            <label class="append-1" for="filter_local">Local</label>
-
-          </div>
-
-          <div id="event_filters" class="big_link span-5 last">
-
-            <input type="checkbox" name="filter" id="id_future_events" value="All" />
+            <input type="checkbox" name="filter" id="id_future_events" value="All" class="prepend-4"/>
             <label class="append-1" for="filter_all">Future Events only</label>
 
-          </div>
+            <span class="clearfix"></span><br/>
+            <input id="search" type="submit" value="Search now" class="span-5" />
+
+            <a id="map_show" href="#">Show Map</a>
+            <a id="map_hide" href="#">Hide Map</a>
+            <br/>
+            <br/>
+
+          </form>
 
           <div id="search_map" class="box span-18 last pannel">
           </div>
@@ -214,7 +182,7 @@
         </span>
         <span class="span-6 select-action last">
           <a href="#" class="print_selected">Print Selected</a>
-          <a href="#" class="email_selected">Email Selected</a>
+          <!--<a href="#" class="email_selected">Email Selected</a>-->
         </span>
 
       </p>
@@ -303,7 +271,7 @@
       <% }); %>
 
       <p class="pagination span-18 last">
-        <a href="#" class="email">Email Resources</a> |
+        <!--<a href="#" class="email">Email Resources</a> |-->
         <a href="#" class="print">Print Resources</a>
       </p>
 
@@ -315,7 +283,7 @@
       <hr/>
       <a href="http://aliss.org/depot/resource/<%= resource.id %>/edit/">Edit resource</a> |
       <a href="http://aliss.org/depot/resource/<%= resource.id %>/report/">Report Resource</a> |
-      <a href="#" class="email">Email Resource</a> |
+      <!--<a href="#" class="email">Email Resource</a> |-->
       <a href="#" class="print">Print Resource</a>
 
     <% } else { %>
